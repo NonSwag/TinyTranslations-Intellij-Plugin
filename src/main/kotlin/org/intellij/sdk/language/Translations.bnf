@@ -1,0 +1,32 @@
+{
+  parserClass="org.intellij.sdk.language.parser.TranslationsParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Translations"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.intellij.sdk.language.psi"
+  psiImplPackage="org.intellij.sdk.language.psi.impl"
+
+  elementTypeHolderClass="org.intellij.sdk.language.psi.TranslationsTypes"
+  elementTypeClass="org.intellij.sdk.language.psi.TranslationsElementType"
+  tokenTypeClass="org.intellij.sdk.language.psi.TranslationsTokenType"
+}
+
+document ::= content <<eof>>
+
+content ::= element+
+
+element ::= placeholder | self_closing_tag | content_tag | text_element
+
+content_tag ::= open_tag element* close_tag {extends=element}
+self_closing_tag ::= TAG_OPEN TAG_KEY attributes TAG_END TAG_CLOSE {extends=element}
+text_element ::= MISC? {extends=element}
+placeholder ::= PH_OPEN PH_KEY attributes PH_CLOSE {extends=element recoverWhile=ph_recovery}
+private ph_recovery ::= !PH_CLOSE
+
+private close_tag ::= TAG_OPEN TAG_END TAG_KEY TAG_CLOSE
+private open_tag ::= TAG_OPEN TAG_KEY attributes TAG_CLOSE
+
+private attributes ::= (SEPARATOR attribute)* {pin=1}
+private attribute ::= BOOL | NUMBER | VALUE

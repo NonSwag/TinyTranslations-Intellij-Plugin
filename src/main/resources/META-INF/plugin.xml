@@ -1,0 +1,73 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>de.cubbossa.Translations-Syntax</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Translations-Syntax</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    Enter short description for your plugin here.<br>
+    <em>most HTML tags may be used</em>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="MinecraftTranslations"
+                implementationClass="org.intellij.sdk.language.TranslationsFileType"
+                fieldName="INSTANCE"
+                language="TranslationsFormat"
+                extensions="lang"
+        />
+        <lang.parserDefinition
+            language="TranslationsFormat"
+            implementationClass="org.intellij.sdk.language.TranslationsParserDefinition"
+        />
+        <lang.syntaxHighlighterFactory
+            language="TranslationsFormat"
+            implementationClass="org.intellij.sdk.language.TranslationsSyntaxHighlighterFactory"
+        />
+        <colorSettingsPage implementation="org.intellij.sdk.language.TranslationsColorSettingsPage"/>
+        <completion.contributor
+            language="TranslationsFormat"
+            implementationClass="org.intellij.sdk.language.TranslationsCompletionContributor"
+        />
+        <lang.findUsagesProvider
+            language="TranslationsFormat"
+            implementationClass="org.intellij.sdk.language.TranslationsFindUsagesProvider"
+        />
+
+        <fileType
+                name="Ampersand Styling"
+                implementationClass="org.intellij.sdk.language.AmpersandFileType"
+                fieldName="INSTANCE"
+                language="MinecraftAmpersand"
+                extensions="lang"
+        />
+        <lang.parserDefinition
+                language="MinecraftAmpersand"
+                implementationClass="org.intellij.sdk.language.AmpersandParserDefinition"
+        />
+        <lang.syntaxHighlighterFactory
+                language="MinecraftAmpersand"
+                implementationClass="org.intellij.sdk.language.AmpersandSyntaxHighlighterFactory"
+        />
+        <completion.contributor
+            language="MinecraftAmpersand"
+            implementationClass="org.intellij.sdk.language.AmpersandCompletionContributor"
+        />
+    </extensions>
+</idea-plugin>
