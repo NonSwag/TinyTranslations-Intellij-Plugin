@@ -14,5 +14,11 @@
 }
 
 document ::= content+ <<eof>>
-content ::= formatter | MISC | ESCAPE | FORMAT | SYMBOL
-formatter ::= SYMBOL FORMAT
+private content ::= formatter | text
+formatter ::= SYMBOL format
+format ::= color_format | hexcolor_format | deco_format | special_format
+color_format ::= COLOR
+hexcolor_format ::= HEXCOLOR
+deco_format ::= DECO
+special_format ::= SPECIAL
+text ::= MISC | ESCAPE | format | SYMBOL

@@ -17,7 +17,10 @@ import com.intellij.psi.TokenType;
 
 ESCAPE=\\
 SYMBOL=&
-FORMAT=(r|[0-9]|[a-f]|[k-o]|#[0-9a-f]{6})
+HEXCOLOR=#[0-9a-f]{6}
+COLOR=[0-9]|[a-f]
+SPECIAL=r
+DECO=[k-o]
 MISC=[^]
 
 %state ESC
@@ -28,7 +31,10 @@ MISC=[^]
 <YYINITIAL> {
     {ESCAPE} { yybegin(ESC); return AmpersandTypes.MISC; }
     {SYMBOL} { return AmpersandTypes.SYMBOL; }
-    {FORMAT} { return AmpersandTypes.FORMAT; }
+    {DECO} { return AmpersandTypes.DECO; }
+    {HEXCOLOR} { return AmpersandTypes.HEXCOLOR; }
+    {COLOR} { return AmpersandTypes.COLOR; }
+    {SPECIAL} { return AmpersandTypes.SPECIAL; }
     {MISC} { return AmpersandTypes.MISC; }
 }
 
