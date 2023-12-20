@@ -57,7 +57,7 @@ public class AmpersandCompletionContributor extends CompletionContributor {
 
 
 	public AmpersandCompletionContributor() {
-		extend(CompletionType.BASIC, psiElement(AmpersandTypes.MISC), new CompletionProvider<>() {
+		extend(CompletionType.BASIC, psiElement().afterLeaf("&"), new CompletionProvider<>() {
 			@Override
 			protected void addCompletions(@NotNull CompletionParameters completionParameters, @NotNull ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
 				suggestionList.forEach(suggestion -> {

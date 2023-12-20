@@ -76,13 +76,13 @@ public class TranslationsParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // TAG_OPEN TAG_END TAG_KEY TAG_CLOSE
-  static boolean close_tag(PsiBuilder b, int l) {
+  public static boolean close_tag(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "close_tag")) return false;
     if (!nextTokenIs(b, TAG_OPEN)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, TAG_OPEN, TAG_END, TAG_KEY, TAG_CLOSE);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, CLOSE_TAG, r);
     return r;
   }
 
@@ -106,13 +106,12 @@ public class TranslationsParser implements PsiParser, LightPsiParser {
   // open_tag element* close_tag
   public static boolean content_tag(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "content_tag")) return false;
-    if (!nextTokenIs(b, TAG_OPEN)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, CONTENT_TAG, "<content tag>");
     r = open_tag(b, l + 1);
     r = r && content_tag_1(b, l + 1);
     r = r && close_tag(b, l + 1);
-    exit_section_(b, m, CONTENT_TAG, r);
+    exit_section_(b, l, m, r, false, TranslationsParser::tag_recovery);
     return r;
   }
 
@@ -155,7 +154,7 @@ public class TranslationsParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // TAG_OPEN TAG_KEY attributes TAG_CLOSE
-  static boolean open_tag(PsiBuilder b, int l) {
+  public static boolean open_tag(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "open_tag")) return false;
     if (!nextTokenIs(b, TAG_OPEN)) return false;
     boolean r;
@@ -163,7 +162,7 @@ public class TranslationsParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, TAG_OPEN, TAG_KEY);
     r = r && attributes(b, l + 1);
     r = r && consumeToken(b, TAG_CLOSE);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, OPEN_TAG, r);
     return r;
   }
 
@@ -195,13 +194,23 @@ public class TranslationsParser implements PsiParser, LightPsiParser {
   // TAG_OPEN TAG_KEY attributes TAG_END TAG_CLOSE
   public static boolean self_closing_tag(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "self_closing_tag")) return false;
-    if (!nextTokenIs(b, TAG_OPEN)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, SELF_CLOSING_TAG, "<self closing tag>");
     r = consumeTokens(b, 0, TAG_OPEN, TAG_KEY);
     r = r && attributes(b, l + 1);
     r = r && consumeTokens(b, 0, TAG_END, TAG_CLOSE);
-    exit_section_(b, m, SELF_CLOSING_TAG, r);
+    exit_section_(b, l, m, r, false, TranslationsParser::tag_recovery);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !TAG_CLOSE
+  static boolean tag_recovery(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tag_recovery")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, TAG_CLOSE);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

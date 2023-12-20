@@ -36,14 +36,16 @@ public class AmpersandParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FORMAT | MISC
+  // formatter | MISC | ESCAPE | FORMAT | SYMBOL
   public static boolean content(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "content")) return false;
-    if (!nextTokenIs(b, "<content>", FORMAT, MISC)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CONTENT, "<content>");
-    r = consumeToken(b, FORMAT);
+    r = formatter(b, l + 1);
     if (!r) r = consumeToken(b, MISC);
+    if (!r) r = consumeToken(b, ESCAPE);
+    if (!r) r = consumeToken(b, FORMAT);
+    if (!r) r = consumeToken(b, SYMBOL);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -52,7 +54,6 @@ public class AmpersandParser implements PsiParser, LightPsiParser {
   // content+ <<eof>>
   static boolean document(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "document")) return false;
-    if (!nextTokenIs(b, "", FORMAT, MISC)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = document_0(b, l + 1);
@@ -73,6 +74,18 @@ public class AmpersandParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "document_0", c)) break;
     }
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // SYMBOL FORMAT
+  public static boolean formatter(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "formatter")) return false;
+    if (!nextTokenIs(b, SYMBOL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, SYMBOL, FORMAT);
+    exit_section_(b, m, FORMATTER, r);
     return r;
   }
 

@@ -29,8 +29,20 @@ public class TranslationsContentTagImpl extends TranslationsElementImpl implemen
 
   @Override
   @NotNull
+  public TranslationsCloseTag getCloseTag() {
+    return findNotNullChildByClass(TranslationsCloseTag.class);
+  }
+
+  @Override
+  @NotNull
   public List<TranslationsElement> getElementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, TranslationsElement.class);
+  }
+
+  @Override
+  @NotNull
+  public TranslationsOpenTag getOpenTag() {
+    return findNotNullChildByClass(TranslationsOpenTag.class);
   }
 
 }

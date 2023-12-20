@@ -49,6 +49,10 @@
             language="TranslationsFormat"
             implementationClass="org.intellij.sdk.language.TranslationsFindUsagesProvider"
         />
+        <languageInjectionContributor
+            language="TranslationsFormat"
+            implementationClass="org.intellij.sdk.language.InTranslationsLanguageInjector"
+        />
 
         <fileType
                 name="Ampersand Styling"
@@ -61,9 +65,9 @@
                 language="MinecraftAmpersand"
                 implementationClass="org.intellij.sdk.language.AmpersandParserDefinition"
         />
-        <lang.syntaxHighlighterFactory
+        <annotator
                 language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.AmpersandSyntaxHighlighterFactory"
+                implementationClass="org.intellij.sdk.language.AmpersandAnnotator"
         />
         <completion.contributor
             language="MinecraftAmpersand"

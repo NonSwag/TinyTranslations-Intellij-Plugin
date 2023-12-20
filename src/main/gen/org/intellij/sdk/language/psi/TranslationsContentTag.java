@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface TranslationsContentTag extends TranslationsElement {
 
   @NotNull
+  TranslationsCloseTag getCloseTag();
+
+  @NotNull
   List<TranslationsElement> getElementList();
+
+  @NotNull
+  TranslationsOpenTag getOpenTag();
 
 }

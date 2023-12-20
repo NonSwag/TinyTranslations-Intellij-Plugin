@@ -19,14 +19,15 @@ content ::= element+
 
 element ::= placeholder | self_closing_tag | content_tag | text_element
 
-content_tag ::= open_tag element* close_tag {extends=element}
-self_closing_tag ::= TAG_OPEN TAG_KEY attributes TAG_END TAG_CLOSE {extends=element}
+content_tag ::= open_tag element* close_tag {extends=element recoverWhile=tag_recovery}
+self_closing_tag ::= TAG_OPEN TAG_KEY attributes TAG_END TAG_CLOSE {extends=element recoverWhile=tag_recovery}
 text_element ::= MISC? {extends=element}
 placeholder ::= PH_OPEN PH_KEY attributes PH_CLOSE {extends=element recoverWhile=ph_recovery}
 private ph_recovery ::= !PH_CLOSE
+private tag_recovery ::= !TAG_CLOSE
 
-private close_tag ::= TAG_OPEN TAG_END TAG_KEY TAG_CLOSE
-private open_tag ::= TAG_OPEN TAG_KEY attributes TAG_CLOSE
+close_tag ::= TAG_OPEN TAG_END TAG_KEY TAG_CLOSE
+open_tag ::= TAG_OPEN TAG_KEY attributes TAG_CLOSE
 
 private attributes ::= (SEPARATOR attribute)* {pin=1}
 private attribute ::= BOOL | NUMBER | VALUE

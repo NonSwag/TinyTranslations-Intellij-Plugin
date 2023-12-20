@@ -8,9 +8,11 @@ import org.intellij.sdk.language.psi.impl.*;
 
 public interface TranslationsTypes {
 
+  IElementType CLOSE_TAG = new TranslationsElementType("CLOSE_TAG");
   IElementType CONTENT = new TranslationsElementType("CONTENT");
   IElementType CONTENT_TAG = new TranslationsElementType("CONTENT_TAG");
   IElementType ELEMENT = new TranslationsElementType("ELEMENT");
+  IElementType OPEN_TAG = new TranslationsElementType("OPEN_TAG");
   IElementType PLACEHOLDER = new TranslationsElementType("PLACEHOLDER");
   IElementType SELF_CLOSING_TAG = new TranslationsElementType("SELF_CLOSING_TAG");
   IElementType TEXT_ELEMENT = new TranslationsElementType("TEXT_ELEMENT");
@@ -31,11 +33,17 @@ public interface TranslationsTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == CONTENT) {
+      if (type == CLOSE_TAG) {
+        return new TranslationsCloseTagImpl(node);
+      }
+      else if (type == CONTENT) {
         return new TranslationsContentImpl(node);
       }
       else if (type == CONTENT_TAG) {
         return new TranslationsContentTagImpl(node);
+      }
+      else if (type == OPEN_TAG) {
+        return new TranslationsOpenTagImpl(node);
       }
       else if (type == PLACEHOLDER) {
         return new TranslationsPlaceholderImpl(node);

@@ -94,7 +94,7 @@ class AmpersandLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\2\1\1\2\1\3\1\0\1\4\5\0";
+    "\3\0\2\1\1\2\1\3\1\4\1\5\5\0";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[14];
@@ -122,8 +122,8 @@ class AmpersandLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\6\0\14\0\14\0\22\0\14\0\14\0\30"+
-    "\0\14\0\36\0\44\0\52\0\60\0\66";
+    "\0\0\0\6\0\14\0\14\0\22\0\14\0\14\0\14"+
+    "\0\14\0\30\0\36\0\44\0\52\0\60";
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[14];
@@ -149,13 +149,12 @@ class AmpersandLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\2\4\1\5\1\4\1\6\1\4\6\7\7\0\1\10"+
-    "\1\0\1\11\1\0\1\11\3\0\1\12\5\0\1\13"+
-    "\5\0\1\14\5\0\1\15\5\0\1\16\5\0\1\11"+
-    "\2\0";
+    "\1\4\1\5\1\6\1\7\1\10\1\7\6\11\11\0"+
+    "\1\12\5\0\1\13\5\0\1\14\5\0\1\15\5\0"+
+    "\1\16\5\0\1\7\2\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[60];
+    int [] result = new int[54];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -193,7 +192,7 @@ class AmpersandLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\1\10\1\11\1\1\2\11\1\0\1\11\5\0";
+    "\2\0\1\10\1\11\1\1\4\11\5\0";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[14];
@@ -521,22 +520,27 @@ class AmpersandLexer implements FlexLexer {
             { return AmpersandTypes.MISC;
             }
           // fall through
-          case 5: break;
-          case 2:
-            { yybegin(ESC); return AmpersandTypes.MISC;
-            }
-          // fall through
           case 6: break;
-          case 3:
-            { yybegin(YYINITIAL); return AmpersandTypes.MISC;
+          case 2:
+            { return AmpersandTypes.SYMBOL;
             }
           // fall through
           case 7: break;
-          case 4:
+          case 3:
             { return AmpersandTypes.FORMAT;
             }
           // fall through
           case 8: break;
+          case 4:
+            { yybegin(ESC); return AmpersandTypes.MISC;
+            }
+          // fall through
+          case 9: break;
+          case 5:
+            { yybegin(YYINITIAL); return AmpersandTypes.MISC;
+            }
+          // fall through
+          case 10: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

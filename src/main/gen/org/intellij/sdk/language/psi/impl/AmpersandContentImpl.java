@@ -27,4 +27,10 @@ public class AmpersandContentImpl extends ASTWrapperPsiElement implements Ampers
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public AmpersandFormatter getFormatter() {
+    return findChildByClass(AmpersandFormatter.class);
+  }
+
 }

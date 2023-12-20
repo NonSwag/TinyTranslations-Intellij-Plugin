@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class TranslationsVisitor extends PsiElementVisitor {
 
+  public void visitCloseTag(@NotNull TranslationsCloseTag o) {
+    visitPsiElement(o);
+  }
+
   public void visitContent(@NotNull TranslationsContent o) {
     visitPsiElement(o);
   }
@@ -16,6 +20,10 @@ public class TranslationsVisitor extends PsiElementVisitor {
   }
 
   public void visitElement(@NotNull TranslationsElement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOpenTag(@NotNull TranslationsOpenTag o) {
     visitPsiElement(o);
   }
 

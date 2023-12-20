@@ -16,7 +16,8 @@ import com.intellij.psi.TokenType;
 %eof}
 
 ESCAPE=\\
-FORMAT=&(r|[0-9]|[a-f]|[k-o]|#[0-9a-f]{6})
+SYMBOL=&
+FORMAT=(r|[0-9]|[a-f]|[k-o]|#[0-9a-f]{6})
 MISC=[^]
 
 %state ESC
@@ -26,6 +27,7 @@ MISC=[^]
 
 <YYINITIAL> {
     {ESCAPE} { yybegin(ESC); return AmpersandTypes.MISC; }
+    {SYMBOL} { return AmpersandTypes.SYMBOL; }
     {FORMAT} { return AmpersandTypes.FORMAT; }
     {MISC} { return AmpersandTypes.MISC; }
 }
