@@ -16,10 +16,6 @@ import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 public class TranslationsCompletionContributor extends CompletionContributor {
 
-	private static final List<String> VALUES = new ArrayList<>(List.of(
-			"msg:", "style:", "click:", "hover:", "repeat:", "darker", "lighter", "url"
-	));
-
 	TranslationsCompletionContributor() {
 		extend(CompletionType.BASIC, psiElement(TranslationsTypes.TAG_KEY), new CompletionProvider<>() {
 			@Override
@@ -34,10 +30,7 @@ public class TranslationsCompletionContributor extends CompletionContributor {
 
 							}));
 				});
-				VALUES.addAll(TextDecoration.NAMES.keys());
-
-
-				VALUES.forEach(s -> completionResultSet.addElement(LookupElementBuilder.create(s)));
+				Constants.TAGS.forEach(s -> completionResultSet.addElement(LookupElementBuilder.create(s)));
 			}
 		});
 	}

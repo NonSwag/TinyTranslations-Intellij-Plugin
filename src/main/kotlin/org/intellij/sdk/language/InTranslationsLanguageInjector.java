@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public class InTranslationsLanguageInjector implements LanguageInjectionContributor {
   @Override
   public @Nullable Injection getInjection(@NotNull PsiElement context) {
+    System.out.println(context);
     PsiElement element = getContentTagOpen(context);
     if (element == null) return null;
 

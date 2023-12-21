@@ -25,6 +25,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <!--
         <fileType
                 name="MinecraftTranslations"
                 implementationClass="org.intellij.sdk.language.TranslationsFileType"
@@ -53,6 +54,7 @@
             language="TranslationsFormat"
             implementationClass="org.intellij.sdk.language.InTranslationsLanguageInjector"
         />
+        -->
 
         <fileType
                 name="Ampersand Styling"
@@ -72,6 +74,10 @@
         <completion.contributor
             language="MinecraftAmpersand"
             implementationClass="org.intellij.sdk.language.AmpersandCompletionContributor"
+        />
+        <colorProvider
+            language="MinecraftAmpersand"
+            implementationClass="org.intellij.sdk.language.AmpersandElementColorProvider"
         />
     </extensions>
 </idea-plugin>
