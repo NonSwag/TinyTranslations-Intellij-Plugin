@@ -16,7 +16,9 @@
 document ::= content+ <<eof>>
 private content ::= formatter | text
 formatter ::= SYMBOL format
-format ::= color_format | hexcolor_format | deco_format | special_format
+format ::= color_group | deco_group
+color_group ::= color_format | hexcolor_format | special_format
+deco_group ::= deco_format | special_format
 color_format ::= COLOR
 hexcolor_format ::= HEXCOLOR
 deco_format ::= DECO

@@ -12,14 +12,6 @@ import com.intellij.psi.TokenType;
 %unicode
 %function advance
 %type IElementType
-%eof{  return;
-%eof}
-
-// NBT_KEY=nbt
-// LEGACY_KEY=legacy
-// LEGACY_AMP_OPEN=legacy:'&'
-// LEGACY_PAR_OPEN=legacy:'§'
-// LEGACY_CHAR=(&|§)([0-9]|[a-f]|[k-o]|r|#[0-9a-f]{6})
 
 SEPARATOR=:
 TAG_OPEN=<
@@ -27,11 +19,11 @@ TAG_CLOSE=>
 TAG_END=\/
 PH_OPEN=[{]
 PH_CLOSE=[}]
-TAG_KEY=[a-zA-Z][a-zA-Z0-9\-_.]*
-PH_KEY=[a-zA-Z][a-zA-Z0-9\-_.]*
+TAG_KEY=[#a-zA-Z][a-zA-Z0-9\-_.#]*
+PH_KEY=[a-zA-Z][a-zA-Z0-9\-_.#]*
 BOOL=true|false
 NUMBER=[0-9]+([\.,][0-9]+)?
-VALUE=[\'][^\']+[\'] | [\"][^\"]+[\"] | [a-zA-Z0-9\-._]+
+VALUE=[\']([^\']|\\\')+[\'] | [\"][^\"]+[\"] | [a-zA-Z0-9\-._]+
 MISC=[^]
 BAD_CHARACTER=[^]
 
@@ -41,7 +33,6 @@ BAD_CHARACTER=[^]
 %state TAG_WAITING_CLOSE
 %state TAG_SELF_CLOSE
 %state TAG_CLOSING
-%state NBT
 %state PH
 %state PH_ATTR_SEP
 %state PH_ATTR
@@ -53,7 +44,6 @@ BAD_CHARACTER=[^]
     {PH_OPEN}              { yybegin(PH); return TranslationsTypes.PH_OPEN; }
     {MISC}                 { return TranslationsTypes.MISC; }
 }
-
 <PH> {
     {PH_KEY}                  { yybegin(PH_ATTR_SEP); return TranslationsTypes.PH_KEY; }
 }

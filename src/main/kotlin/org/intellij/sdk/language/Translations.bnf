@@ -1,5 +1,6 @@
 {
   parserClass="org.intellij.sdk.language.parser.TranslationsParser"
+  parserUtilClass="org.intellij.sdk.language.parser.TranslationsParserUtil"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -13,21 +14,20 @@
   tokenTypeClass="org.intellij.sdk.language.psi.TranslationsTokenType"
 }
 
-document ::= content <<eof>>
+root ::= contents <<eof>>
 
-content ::= element+
+contents ::= content*
+content ::= content_tag | self_closing_tag | placeholder | text_element
 
-element ::= placeholder | self_closing_tag | content_tag | text_element {extraRoot=true}
+content_tag ::= open_tag contents close_tag? {extends=content}
+open_tag ::= TAG_OPEN open_tag_key attributes TAG_CLOSE
+open_tag_key ::= <<open>>
+close_tag ::= TAG_OPEN TAG_END close_tag_key TAG_CLOSE
+close_tag_key ::= <<close>>
 
-content_tag ::= open_tag element* close_tag {extends=element recoverWhile=tag_recovery}
-self_closing_tag ::= TAG_OPEN TAG_KEY attributes TAG_END TAG_CLOSE {extends=element recoverWhile=tag_recovery}
-text_element ::= MISC? {extends=element}
-placeholder ::= PH_OPEN PH_KEY attributes PH_CLOSE {extends=element recoverWhile=ph_recovery}
-private ph_recovery ::= !PH_CLOSE
-private tag_recovery ::= !TAG_CLOSE
+self_closing_tag ::= TAG_OPEN TAG_KEY attributes TAG_END TAG_CLOSE {extends=content}
+text_element ::= MISC+ {extends=content}
+placeholder ::= PH_OPEN PH_KEY attributes PH_CLOSE {extends=content}
 
-close_tag ::= TAG_OPEN TAG_END TAG_KEY TAG_CLOSE
-open_tag ::= TAG_OPEN TAG_KEY attributes TAG_CLOSE
-
-private attributes ::= (SEPARATOR attribute)* {pin=1}
+private attributes ::= (SEPARATOR attribute)*
 private attribute ::= BOOL | NUMBER | VALUE

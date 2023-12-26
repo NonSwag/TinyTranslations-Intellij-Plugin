@@ -1,0 +1,12 @@
+<templateSet group="Translations">
+    <template name="click" value="&lt;click:$ACTION$:$DATA$&gt;$END$&lt;/click&gt;" toReformat="false"
+              toShortenFQNames="true">
+        <variable name="ACTION"
+                  expression="enum(&quot;run_command&quot;,&quot;change_page&quot;,&quot;copy_to_clipboard&quot;,&quot;open_file&quot;,&quot;open_url&quot;,&quot;suggest_command&quot;)"
+                  defaultValue="&quot;run_command&quot;" alwaysStopAt="true"/>
+        <variable name="DATA" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context>
+            <option name="Translations" value="true"/>
+        </context>
+    </template>
+</templateSet>

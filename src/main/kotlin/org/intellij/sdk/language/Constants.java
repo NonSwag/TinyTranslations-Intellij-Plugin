@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Constants {
@@ -21,7 +22,7 @@ public class Constants {
   }
 
 
-  private static final BidirectionalMap<NamedTextColor, String> COLOR_ENCODINGS = new BidirectionalMap<>();
+  public static final BidirectionalMap<NamedTextColor, String> COLOR_ENCODINGS = new BidirectionalMap<>();
   static {
     COLOR_ENCODINGS.put(NamedTextColor.BLACK, "0");
     COLOR_ENCODINGS.put(NamedTextColor.DARK_BLUE, "1");
@@ -43,15 +44,21 @@ public class Constants {
 
   public record Suggestion(Icon icon, String sug, String name) {}
 
-  private static Suggestion color(NamedTextColor col, char symbol) {
-    return new Suggestion(createImageIcon(new Color(col.value()), 16, 16), "&" + symbol, col.toString().toLowerCase());
+  private static Suggestion ampersandColor(NamedTextColor col, char symbol) {
+    return new Suggestion(createImageIcon(new Color(col.value()), 14, 14), "&" + symbol, col.toString().toLowerCase());
   }
 
   public static List<Suggestion> AMP_SUGGESTIONS_LIST = new ArrayList<>(List.of(
       new Suggestion(null, "&m", "strikethrough")
   ));
+  public static List<Suggestion> MM_SUGGESTIONS_LIST = new LinkedList<>(List.of(
+          new Suggestion(null, "strikethrough", "strikethrough")
+  ));
   static {
-    COLOR_ENCODINGS.forEach((k, v) -> AMP_SUGGESTIONS_LIST.add(color(k, v.toCharArray()[0])));
+    COLOR_ENCODINGS.forEach((k, v) -> AMP_SUGGESTIONS_LIST.add(ampersandColor(k, v.toCharArray()[0])));
+    COLOR_ENCODINGS.forEach((k, v) -> MM_SUGGESTIONS_LIST.add(
+            new Suggestion(createImageIcon(new Color(k.value()), 14, 14), k.toString().toLowerCase(), k.toString().toLowerCase()))
+    );
   }
 
   public static ImageIcon createImageIcon(Color color, int width, int height) {

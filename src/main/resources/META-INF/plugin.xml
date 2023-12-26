@@ -25,7 +25,6 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <!--
         <fileType
                 name="MinecraftTranslations"
                 implementationClass="org.intellij.sdk.language.TranslationsFileType"
@@ -34,27 +33,39 @@
                 extensions="lang"
         />
         <lang.parserDefinition
-            language="TranslationsFormat"
-            implementationClass="org.intellij.sdk.language.TranslationsParserDefinition"
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsParserDefinition"
         />
         <lang.syntaxHighlighterFactory
-            language="TranslationsFormat"
-            implementationClass="org.intellij.sdk.language.TranslationsSyntaxHighlighterFactory"
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsSyntaxHighlighterFactory"
         />
         <colorSettingsPage implementation="org.intellij.sdk.language.TranslationsColorSettingsPage"/>
         <completion.contributor
-            language="TranslationsFormat"
-            implementationClass="org.intellij.sdk.language.TranslationsCompletionContributor"
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsCompletionContributor"
         />
         <lang.findUsagesProvider
-            language="TranslationsFormat"
-            implementationClass="org.intellij.sdk.language.TranslationsFindUsagesProvider"
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsFindUsagesProvider"
+        />
+        <annotator
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsAnnotator"
         />
         <languageInjectionContributor
-            language="TranslationsFormat"
-            implementationClass="org.intellij.sdk.language.InTranslationsLanguageInjector"
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.InTranslationsLanguageInjector"
         />
-        -->
+        <colorProvider
+                language="MinecraftAmpersand"
+                implementationClass="org.intellij.sdk.language.TranslationsElementColorProvider"
+        />
+        <defaultLiveTemplates file="/Translations.xml"/>
+        <liveTemplateContext
+                contextId="Translations"
+                implementation="org.intellij.sdk.language.TranslationsClickTemplateContextType"
+        />
 
         <fileType
                 name="Ampersand Styling"
@@ -72,12 +83,12 @@
                 implementationClass="org.intellij.sdk.language.AmpersandAnnotator"
         />
         <completion.contributor
-            language="MinecraftAmpersand"
-            implementationClass="org.intellij.sdk.language.AmpersandCompletionContributor"
+                language="MinecraftAmpersand"
+                implementationClass="org.intellij.sdk.language.AmpersandCompletionContributor"
         />
         <colorProvider
-            language="MinecraftAmpersand"
-            implementationClass="org.intellij.sdk.language.AmpersandElementColorProvider"
+                language="MinecraftAmpersand"
+                implementationClass="org.intellij.sdk.language.AmpersandElementColorProvider"
         />
     </extensions>
 </idea-plugin>

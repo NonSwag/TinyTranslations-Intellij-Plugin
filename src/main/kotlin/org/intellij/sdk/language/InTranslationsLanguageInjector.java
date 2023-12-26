@@ -5,15 +5,14 @@ import com.intellij.lang.injection.general.Injection;
 import com.intellij.lang.injection.general.LanguageInjectionContributor;
 import com.intellij.lang.injection.general.SimpleInjection;
 import com.intellij.psi.PsiElement;
-import org.intellij.sdk.language.psi.TranslationsContent;
 import org.intellij.sdk.language.psi.TranslationsContentTag;
+import org.intellij.sdk.language.psi.TranslationsContents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class InTranslationsLanguageInjector implements LanguageInjectionContributor {
   @Override
   public @Nullable Injection getInjection(@NotNull PsiElement context) {
-    System.out.println(context);
     PsiElement element = getContentTagOpen(context);
     if (element == null) return null;
 
@@ -32,8 +31,8 @@ public class InTranslationsLanguageInjector implements LanguageInjectionContribu
   }
 
   private @Nullable PsiElement getContentTagOpen(PsiElement context) {
-    if (context instanceof TranslationsContent) {
-      if (context.getParent() instanceof TranslationsContentTag contentTag) {
+    if (context instanceof TranslationsContents contents) {
+      if (contents.getParent() instanceof TranslationsContentTag contentTag) {
         return contentTag.getOpenTag();
       }
     }

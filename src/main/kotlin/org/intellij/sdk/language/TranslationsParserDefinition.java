@@ -1,15 +1,19 @@
 package org.intellij.sdk.language;
 
+import com.intellij.find.usages.api.PsiUsage;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
+import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import com.intellij.psi.util.PsiUtilBase;
 import org.intellij.sdk.language.parser.TranslationsParser;
 import org.intellij.sdk.language.psi.TranslationsTypes;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +29,13 @@ public class TranslationsParserDefinition implements ParserDefinition {
 
 	@Override
 	public @NotNull PsiParser createParser(Project project) {
-		return new TranslationsParser();
+		return new TranslationsParser() {
+			@Override
+			public ASTNode parse(IElementType t, PsiBuilder b) {
+				var ast = super.parse(t, b);
+				return ast;
+			}
+		};
 	}
 
 	@Override

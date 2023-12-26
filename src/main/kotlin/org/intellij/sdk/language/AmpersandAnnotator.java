@@ -1,5 +1,6 @@
 package org.intellij.sdk.language;
 
+import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
@@ -27,11 +28,11 @@ public class AmpersandAnnotator implements Annotator {
           .create();
     }
     if (element instanceof AmpersandFormatter a) {
-      if (element.getPrevSibling() instanceof AmpersandFormatter b) {
-        if (a.getFormat().getFirstChild().isEquivalentTo(b.getFormat().getFirstChild())) {
-          System.out.println("true");
-          holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Redundant color sign " + a.getText())
-                  .range(b)
+      if (element.getNextSibling() instanceof AmpersandFormatter b) {
+        if (a.getFormat().getFirstChild().getClass().equals(b.getFormat().getFirstChild().getClass())) {
+          holder.newAnnotation(HighlightSeverity.WARNING, "Redundant color sign " + a.getText())
+                  .range(a)
+                  .highlightType(ProblemHighlightType.WARNING)
                   .tooltip("Redundant color sign, overwritten by " + a.getText())
                   .create();
         }

@@ -21,7 +21,7 @@ intellij {
     version.set("2023.3.1")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf(/* Plugin Dependencies */))
+    plugins.set(listOf())
 }
 
 sourceSets["main"].java.srcDirs("src/main/gen", "src/main/kotlin")
