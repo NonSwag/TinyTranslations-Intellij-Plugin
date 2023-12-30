@@ -9,9 +9,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://nexus.leonardbausenwein.de/repository/maven-public/")
 }
 
 dependencies {
+    implementation("de.cubbossa:Translations:4.0.0")
     implementation("net.kyori:adventure-api:4.14.0")
 }
 

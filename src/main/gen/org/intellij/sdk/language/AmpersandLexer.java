@@ -66,8 +66,9 @@ class AmpersandLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\43\0\1\1\2\0\1\2\11\0\12\3\42\0\1\4"+
-    "\4\0\6\3\4\0\5\5\2\0\1\6\u018d\0";
+    "\43\0\1\1\2\0\1\2\11\0\12\3\5\0\1\4"+
+    "\34\0\1\4\4\0\6\3\4\0\5\5\2\0\1\6"+
+    "\u018d\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[512];

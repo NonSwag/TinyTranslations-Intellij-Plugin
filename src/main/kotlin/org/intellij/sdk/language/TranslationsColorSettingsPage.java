@@ -16,11 +16,11 @@ import java.util.Map;
 public class TranslationsColorSettingsPage implements ColorSettingsPage {
 
 	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-			new AttributesDescriptor("Tag", TranslationsSyntaxHighlighter.KEY),
+			new AttributesDescriptor("Tag", TranslationsSyntaxHighlighter.TAG),
+			new AttributesDescriptor("Choice", TranslationsSyntaxHighlighter.CHOICE),
+			new AttributesDescriptor("Placeholder", TranslationsSyntaxHighlighter.PLACEHOLDER),
 			new AttributesDescriptor("Separator", TranslationsSyntaxHighlighter.SEPARATOR),
 			new AttributesDescriptor("Attribute", TranslationsSyntaxHighlighter.ATTRIBUTE),
-			new AttributesDescriptor("Bad value", TranslationsSyntaxHighlighter.BAD_CHARACTER),
-			new AttributesDescriptor("Placeholder", TranslationsSyntaxHighlighter.PLACEHOLDER)
 	};
 
 	@Override

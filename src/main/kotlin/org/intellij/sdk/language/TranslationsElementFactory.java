@@ -3,13 +3,8 @@ package org.intellij.sdk.language;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFileFactory;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import org.intellij.sdk.language.psi.AmpersandFormatter;
 import org.intellij.sdk.language.psi.TranslationsContents;
 import org.intellij.sdk.language.psi.TranslationsTextElement;
-
-import java.awt.*;
 
 public class TranslationsElementFactory {
 
@@ -22,7 +17,7 @@ public class TranslationsElementFactory {
 		final TranslationsFile file = createFile(project, "{" + key + "}");
 
 		// file -> contents -> placeholder
-		return file.getFirstChild().getFirstChild();
+		return file.getFirstChild();
 	}
 
 	public static PsiElement createContentTagKey(Project project, String key, TranslationsContents contents) {

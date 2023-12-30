@@ -36,10 +36,6 @@
                 language="TranslationsFormat"
                 implementationClass="org.intellij.sdk.language.TranslationsParserDefinition"
         />
-        <lang.syntaxHighlighterFactory
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsSyntaxHighlighterFactory"
-        />
         <colorSettingsPage implementation="org.intellij.sdk.language.TranslationsColorSettingsPage"/>
         <completion.contributor
                 language="TranslationsFormat"
@@ -58,7 +54,7 @@
                 implementationClass="org.intellij.sdk.language.InTranslationsLanguageInjector"
         />
         <colorProvider
-                language="MinecraftAmpersand"
+                language="TranslationsFormat"
                 implementationClass="org.intellij.sdk.language.TranslationsElementColorProvider"
         />
         <defaultLiveTemplates file="/Translations.xml"/>
@@ -66,6 +62,31 @@
                 contextId="Translations"
                 implementation="org.intellij.sdk.language.TranslationsClickTemplateContextType"
         />
+        <psi.referenceContributor
+                language="TranslationsFormat"
+                implementation="org.intellij.sdk.language.TranslationsReferenceContributor"
+        />
+        <codeInsight.parameterNameHints
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsChoiceInlayHintProvider"
+        />
+        <lang.quoteHandler
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsQuoteHandler"
+        />
+        <lang.braceMatcher
+                language="TranslationsFormat"
+                implementationClass="org.intellij.sdk.language.TranslationsBraceMatcher"
+        />
+        <codeBlockSupportHandler
+            language="TranslationsFormat"
+            implementationClass="org.intellij.sdk.language.TranslationsCodeBlockSupportHandler"
+        />
+        <lang.foldingBuilder
+            language="TranslationsFormat"
+            implementationClass="org.intellij.sdk.language.TranslationsFolding"
+        />
+
 
         <fileType
                 name="Ampersand Styling"

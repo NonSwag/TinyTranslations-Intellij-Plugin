@@ -15,7 +15,8 @@ public class TranslationsElementColorProvider implements ElementColorProvider {
 	@Override
 	public @Nullable Color getColorFrom(@NotNull PsiElement psiElement) {
 		if (psiElement instanceof TranslationsContentTag tag) {
-			String tagName = tag.getOpenTag().getOpenTagKey().getText();
+			String tagName = tag.getOpenTag().getText();
+			tagName = tagName.substring(1, tagName.length() - 1);
 			NamedTextColor color = NamedTextColor.NAMES.value(tagName.toLowerCase());
 			if (color != null) {
 				return new Color(color.value());

@@ -4,32 +4,23 @@ import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.icons.AllIcons;
-import com.intellij.ide.DataManager;
-import com.intellij.ide.startup.importSettings.StartupImportIcons;
-import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.editor.CaretModel;
-import com.intellij.patterns.PlatformPatterns;
-import com.intellij.ui.JBColor;
-import com.intellij.util.Consumer;
 import com.intellij.util.Function;
 import com.intellij.util.ProcessingContext;
+import de.cubbossa.translations.NamedGlobalStyles;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import org.intellij.sdk.language.psi.TranslationsTypes;
 import org.jetbrains.annotations.NotNull;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
+import static org.intellij.sdk.language.psi.TranslationsTypes.*;
 
 public class TranslationsCompletionContributor extends CompletionContributor {
 
 	TranslationsCompletionContributor() {
-		extend(CompletionType.BASIC, psiElement(TranslationsTypes.TAG_KEY), new CompletionProvider<>() {
+		extend(CompletionType.BASIC, psiElement(LITERAL), new CompletionProvider<>() {
 			@Override
 			protected void addCompletions(@NotNull CompletionParameters params,
 										  @NotNull ProcessingContext processingContext,
@@ -39,6 +30,11 @@ public class TranslationsCompletionContributor extends CompletionContributor {
 					completionResultSet.addElement(element(params, name, "color",
 							Constants.createImageIcon(new Color(el.value()), 14, 14)));
 				});
+				for (NamedGlobalStyles value : NamedGlobalStyles.values()) {
+					completionResultSet.addElement(element(params, value.name().toLowerCase(), "style",
+							AllIcons.FileTypes.Xml));
+				}
+
 				completionResultSet.addElement(element(params, "bold", "decoration",
 						AllIcons.FileTypes.Xml, e -> e.withBoldness(true)));
 				completionResultSet.addElement(element(params, "underlined", "decoration",
@@ -51,6 +47,8 @@ public class TranslationsCompletionContributor extends CompletionContributor {
 						AllIcons.FileTypes.Xml));
 
 				completionResultSet.addElement(element(params, "darker", "modifier",
+						AllIcons.FileTypes.Xml));
+				completionResultSet.addElement(element(params, "brighter", "modifier",
 						AllIcons.FileTypes.Xml));
 			}
 		});

@@ -9,4 +9,10 @@
             <option name="Translations" value="true"/>
         </context>
     </template>
+    <template name="repeat" value="&lt;repeat:$COUNT$&gt;$END$&lt;/repeat&gt;" toReformat="false" toShortenFQNames="true">
+        <variable name="DATA" expression="" defaultValue="2" alwaysStopAt="true"/>
+        <context>
+            <option name="Translations" value="true"/>
+        </context>
+    </template>
 </templateSet>

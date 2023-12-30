@@ -19,15 +19,7 @@ class TranslationsLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
-  public static final int TAG = 2;
-  public static final int TAG_KEYED = 4;
-  public static final int TAG_WAITING_ATTRIBUTE = 6;
-  public static final int TAG_WAITING_CLOSE = 8;
-  public static final int TAG_SELF_CLOSE = 10;
-  public static final int TAG_CLOSING = 12;
-  public static final int PH = 14;
-  public static final int PH_ATTR_SEP = 16;
-  public static final int PH_ATTR = 18;
+  public static final int ESC = 2;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -36,8 +28,7 @@ class TranslationsLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = {
-     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,  7,  7, 
-     8,  8,  9, 9
+     0,  0,  1, 1
   };
 
   /**
@@ -74,11 +65,11 @@ class TranslationsLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\42\0\1\1\1\2\3\0\1\3\4\0\1\4\1\5"+
-    "\1\6\1\7\12\10\1\11\1\0\1\12\1\0\1\13"+
-    "\2\0\32\14\1\0\1\15\2\0\1\5\1\0\1\16"+
-    "\3\14\1\17\1\20\5\14\1\21\5\14\1\22\1\23"+
-    "\1\24\1\25\5\14\1\26\1\0\1\27\u0182\0";
+    "\11\0\2\1\25\0\1\1\1\0\1\2\1\3\3\0"+
+    "\1\4\4\0\1\5\1\3\1\6\1\7\12\10\1\11"+
+    "\1\0\1\12\1\0\1\13\1\14\1\0\32\3\1\0"+
+    "\1\15\2\0\1\3\1\0\32\3\1\16\1\0\1\17"+
+    "\u0182\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[512];
@@ -105,14 +96,12 @@ class TranslationsLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\12\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\2\4\1\12\1\13\2\12\1\14\1\15"+
-    "\1\16\1\17\2\4\1\20\1\21\2\20\4\0\3\12"+
-    "\4\0\3\20\2\12\2\13\2\12\2\20\2\21\2\20"+
-    "\1\22\1\23";
+    "\2\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
+    "\1\10\1\11\1\12\1\13\1\14\1\15\1\16\1\17"+
+    "\1\0\1\4\2\7";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[63];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -137,17 +126,12 @@ class TranslationsLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\30\0\60\0\110\0\140\0\170\0\220\0\250"+
-    "\0\300\0\330\0\360\0\360\0\360\0\360\0\u0108\0\360"+
-    "\0\360\0\360\0\360\0\u0120\0\u0138\0\u0150\0\u0168\0\u0180"+
-    "\0\u0198\0\u01b0\0\u01c8\0\360\0\360\0\u01e0\0\u01f8\0\u0210"+
-    "\0\u0228\0\u0240\0\u0258\0\u0270\0\u0288\0\u02a0\0\u02b8\0\u02d0"+
-    "\0\u02e8\0\u0300\0\u0318\0\u0330\0\u0348\0\u0360\0\u0378\0\u0390"+
-    "\0\u03a8\0\360\0\u0288\0\u02b8\0\u02d0\0\u03c0\0\u03d8\0\360"+
-    "\0\u0330\0\u0360\0\u0378\0\u03f0\0\u0408\0\u0150\0\u0210";
+    "\0\0\0\20\0\40\0\40\0\40\0\60\0\40\0\40"+
+    "\0\100\0\40\0\40\0\40\0\40\0\40\0\40\0\40"+
+    "\0\40\0\120\0\140\0\120\0\140";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[63];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -170,49 +154,14 @@ class TranslationsLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\12\13\1\14\13\13\1\15\1\13\2\16\1\17\4\16"+
-    "\1\20\4\16\1\17\1\16\10\17\11\16\1\21\1\16"+
-    "\1\22\1\16\1\23\15\16\1\24\1\16\1\25\1\16"+
-    "\2\26\1\16\1\27\3\16\1\26\1\16\2\26\1\30"+
-    "\3\26\1\31\1\26\15\16\1\23\46\16\1\32\11\16"+
-    "\1\32\1\16\10\32\16\16\1\33\1\16\10\33\13\16"+
-    "\1\34\15\16\1\35\1\16\1\36\1\16\1\37\1\16"+
-    "\2\40\1\16\1\41\3\16\1\40\1\16\2\40\1\42"+
-    "\3\40\1\43\1\40\2\16\32\0\1\17\2\0\2\17"+
-    "\1\0\1\17\3\0\1\17\1\0\10\17\2\0\1\44"+
-    "\1\0\26\44\3\45\1\0\11\45\1\46\12\45\5\0"+
-    "\2\26\1\0\1\26\3\0\1\26\1\0\10\26\6\0"+
-    "\1\47\1\26\1\50\1\0\1\27\3\0\1\26\1\0"+
-    "\10\26\7\0\2\26\1\0\1\26\3\0\1\26\1\0"+
-    "\1\51\7\26\7\0\2\26\1\0\1\26\3\0\1\26"+
-    "\1\0\4\26\1\52\3\26\4\0\1\32\2\0\2\32"+
-    "\1\0\1\32\3\0\1\32\1\0\10\32\4\0\1\33"+
-    "\2\0\2\33\1\0\1\33\3\0\1\33\1\0\10\33"+
-    "\2\0\1\53\1\0\26\53\3\54\1\0\11\54\1\55"+
-    "\12\54\5\0\2\40\1\0\1\40\3\0\1\40\1\0"+
-    "\10\40\6\0\1\56\1\40\1\57\1\0\1\41\3\0"+
-    "\1\40\1\0\10\40\7\0\2\40\1\0\1\40\3\0"+
-    "\1\40\1\0\1\60\7\40\7\0\2\40\1\0\1\40"+
-    "\3\0\1\40\1\0\4\40\1\61\3\40\2\0\1\44"+
-    "\1\62\26\44\3\45\1\62\11\45\1\46\15\45\1\63"+
-    "\11\45\1\46\12\45\10\0\1\64\24\0\2\26\1\0"+
-    "\1\65\3\0\1\26\1\0\10\26\7\0\2\26\1\0"+
-    "\1\26\3\0\1\26\1\0\3\26\1\66\4\26\7\0"+
-    "\2\26\1\0\1\26\3\0\1\26\1\0\7\26\1\67"+
-    "\2\0\1\53\1\70\26\53\3\54\1\70\11\54\1\55"+
-    "\15\54\1\71\11\54\1\55\12\54\10\0\1\72\24\0"+
-    "\2\40\1\0\1\73\3\0\1\40\1\0\10\40\7\0"+
-    "\2\40\1\0\1\40\3\0\1\40\1\0\3\40\1\74"+
-    "\4\40\7\0\2\40\1\0\1\40\3\0\1\40\1\0"+
-    "\7\40\1\75\7\0\2\26\1\0\1\26\3\0\1\26"+
-    "\1\0\5\26\1\67\2\26\7\0\2\26\1\0\1\26"+
-    "\3\0\1\26\1\0\1\26\1\76\6\26\7\0\2\40"+
-    "\1\0\1\40\3\0\1\40\1\0\5\40\1\75\2\40"+
-    "\7\0\2\40\1\0\1\40\3\0\1\40\1\0\1\40"+
-    "\1\77\6\40\2\0";
+    "\1\3\1\4\1\5\1\6\1\7\1\3\1\6\1\10"+
+    "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20"+
+    "\20\21\23\0\1\6\2\0\1\6\1\0\1\6\12\0"+
+    "\1\6\1\0\1\22\1\23\1\0\1\11\17\0\1\24"+
+    "\12\0\1\6\2\0\1\6\1\0\1\25\7\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[1056];
+    int [] result = new int[112];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -250,11 +199,10 @@ class TranslationsLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\12\0\4\11\1\1\4\11\10\1\2\11\6\1\4\0"+
-    "\3\1\4\0\3\1\1\11\5\1\1\11\7\1";
+    "\2\0\3\11\1\1\2\11\1\1\10\11\1\0\3\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[63];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -567,97 +515,77 @@ class TranslationsLexer implements FlexLexer {
             { return TranslationsTypes.MISC;
             }
           // fall through
-          case 20: break;
+          case 16: break;
           case 2:
-            { yybegin(TAG); return TranslationsTypes.TAG_OPEN;
+            { return TranslationsTypes.WHITESPACE;
+            }
+          // fall through
+          case 17: break;
+          case 3:
+            { return TranslationsTypes.DQUOTE;
+            }
+          // fall through
+          case 18: break;
+          case 4:
+            { return TranslationsTypes.LITERAL;
+            }
+          // fall through
+          case 19: break;
+          case 5:
+            { return TranslationsTypes.SQUOTE;
+            }
+          // fall through
+          case 20: break;
+          case 6:
+            { return TranslationsTypes.TAG_END;
             }
           // fall through
           case 21: break;
-          case 3:
-            { yybegin(PH); return TranslationsTypes.PH_OPEN;
+          case 7:
+            { return TranslationsTypes.NUMBER;
             }
           // fall through
           case 22: break;
-          case 4:
-            { return TokenType.BAD_CHARACTER;
+          case 8:
+            { return TranslationsTypes.SEPARATOR;
             }
           // fall through
           case 23: break;
-          case 5:
-            { yybegin(TAG_KEYED); return TranslationsTypes.TAG_KEY;
+          case 9:
+            { return TranslationsTypes.TAG_OPEN;
             }
           // fall through
           case 24: break;
-          case 6:
-            { yybegin(TAG_CLOSING); return TranslationsTypes.TAG_END;
+          case 10:
+            { return TranslationsTypes.TAG_CLOSE;
             }
           // fall through
           case 25: break;
-          case 7:
-            { yybegin(TAG_WAITING_CLOSE); return TranslationsTypes.TAG_END;
+          case 11:
+            { return TranslationsTypes.CHOICE;
             }
           // fall through
           case 26: break;
-          case 8:
-            { yybegin(TAG_WAITING_ATTRIBUTE); return TranslationsTypes.SEPARATOR;
+          case 12:
+            { yybegin(ESC); return TranslationsTypes.ESCAPE;
             }
           // fall through
           case 27: break;
-          case 9:
-            { yybegin(YYINITIAL); return TranslationsTypes.TAG_CLOSE;
+          case 13:
+            { return TranslationsTypes.PH_OPEN;
             }
           // fall through
           case 28: break;
-          case 10:
-            { yybegin(TAG_KEYED); return TranslationsTypes.VALUE;
+          case 14:
+            { return TranslationsTypes.PH_CLOSE;
             }
           // fall through
           case 29: break;
-          case 11:
-            { yybegin(TAG_KEYED); return TranslationsTypes.NUMBER;
+          case 15:
+            { yybegin(YYINITIAL); return TranslationsTypes.MISC;
             }
           // fall through
           case 30: break;
-          case 12:
-            { yybegin(TAG_WAITING_CLOSE); return TranslationsTypes.TAG_KEY;
-            }
-          // fall through
-          case 31: break;
-          case 13:
-            { yybegin(PH_ATTR_SEP); return TranslationsTypes.PH_KEY;
-            }
-          // fall through
-          case 32: break;
-          case 14:
-            { yybegin(PH_ATTR); return TranslationsTypes.SEPARATOR;
-            }
-          // fall through
-          case 33: break;
-          case 15:
-            { yybegin(YYINITIAL); return TranslationsTypes.PH_CLOSE;
-            }
-          // fall through
-          case 34: break;
-          case 16:
-            { yybegin(PH_ATTR_SEP); return TranslationsTypes.VALUE;
-            }
-          // fall through
-          case 35: break;
-          case 17:
-            { yybegin(PH_ATTR_SEP); return TranslationsTypes.NUMBER;
-            }
-          // fall through
-          case 36: break;
-          case 18:
-            { yybegin(TAG_KEYED); return TranslationsTypes.BOOL;
-            }
-          // fall through
-          case 37: break;
-          case 19:
-            { yybegin(PH_ATTR_SEP); return TranslationsTypes.BOOL;
-            }
-          // fall through
-          case 38: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

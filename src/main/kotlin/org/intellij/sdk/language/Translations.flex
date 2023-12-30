@@ -13,70 +13,41 @@ import com.intellij.psi.TokenType;
 %function advance
 %type IElementType
 
+WHITESPACE=[ \t\n]
 SEPARATOR=:
 TAG_OPEN=<
 TAG_CLOSE=>
 TAG_END=\/
+CHOICE=\?
+ESCAPE=\\
 PH_OPEN=[{]
 PH_CLOSE=[}]
-TAG_KEY=[#a-zA-Z][a-zA-Z0-9\-_.#]*
-PH_KEY=[a-zA-Z][a-zA-Z0-9\-_.#]*
-BOOL=true|false
 NUMBER=[0-9]+([\.,][0-9]+)?
-VALUE=[\']([^\']|\\\')+[\'] | [\"][^\"]+[\"] | [a-zA-Z0-9\-._]+
+LITERAL=[a-zA-Z0-9\-_.#]+
+SQUOTE=\'
+DQUOTE=\"
 MISC=[^]
-BAD_CHARACTER=[^]
 
-%state TAG
-%state TAG_KEYED
-%state TAG_WAITING_ATTRIBUTE
-%state TAG_WAITING_CLOSE
-%state TAG_SELF_CLOSE
-%state TAG_CLOSING
-%state PH
-%state PH_ATTR_SEP
-%state PH_ATTR
+%state ESC
 
 %%
 
 <YYINITIAL> {
-    {TAG_OPEN}             { yybegin(TAG); return TranslationsTypes.TAG_OPEN; }
-    {PH_OPEN}              { yybegin(PH); return TranslationsTypes.PH_OPEN; }
+    {ESCAPE}               { yybegin(ESC); return TranslationsTypes.ESCAPE; }
+    {WHITESPACE}           { return TranslationsTypes.WHITESPACE; }
+    {SQUOTE}               { return TranslationsTypes.SQUOTE; }
+    {DQUOTE}               { return TranslationsTypes.DQUOTE; }
+    {CHOICE}               { return TranslationsTypes.CHOICE; }
+    {SEPARATOR}            { return TranslationsTypes.SEPARATOR; }
+    {PH_OPEN}              { return TranslationsTypes.PH_OPEN; }
+    {PH_CLOSE}             { return TranslationsTypes.PH_CLOSE; }
+    {TAG_OPEN}             { return TranslationsTypes.TAG_OPEN; }
+    {TAG_END}              { return TranslationsTypes.TAG_END; }
+    {TAG_CLOSE}            { return TranslationsTypes.TAG_CLOSE; }
+    {NUMBER}               { return TranslationsTypes.NUMBER; }
+    {LITERAL}               { return TranslationsTypes.LITERAL; }
     {MISC}                 { return TranslationsTypes.MISC; }
 }
-<PH> {
-    {PH_KEY}                  { yybegin(PH_ATTR_SEP); return TranslationsTypes.PH_KEY; }
+<ESC> {
+    [^] { yybegin(YYINITIAL); return TranslationsTypes.MISC; }
 }
-<PH_ATTR_SEP> {
-    {SEPARATOR}            { yybegin(PH_ATTR); return TranslationsTypes.SEPARATOR; }
-    {PH_CLOSE}             { yybegin(YYINITIAL); return TranslationsTypes.PH_CLOSE; }
-}
-<PH_ATTR> {
-    {BOOL}                 { yybegin(PH_ATTR_SEP); return TranslationsTypes.BOOL; }
-    {NUMBER}               { yybegin(PH_ATTR_SEP); return TranslationsTypes.NUMBER; }
-    {VALUE}                { yybegin(PH_ATTR_SEP); return TranslationsTypes.VALUE; }
-}
-
-<TAG> {
-    {TAG_END}              { yybegin(TAG_CLOSING); return TranslationsTypes.TAG_END; }
-    {TAG_KEY}                  { yybegin(TAG_KEYED); return TranslationsTypes.TAG_KEY; }
-}
-
-<TAG_CLOSING> {TAG_KEY}          { yybegin(TAG_WAITING_CLOSE); return TranslationsTypes.TAG_KEY; }
-
-<TAG_KEYED> {
-    {SEPARATOR}            { yybegin(TAG_WAITING_ATTRIBUTE); return TranslationsTypes.SEPARATOR; }
-    {TAG_END}              { yybegin(TAG_WAITING_CLOSE); return TranslationsTypes.TAG_END; }
-    {TAG_CLOSE}            { yybegin(YYINITIAL); return TranslationsTypes.TAG_CLOSE; }
-}
-
-<TAG_WAITING_CLOSE> {
-    {TAG_CLOSE}            { yybegin(YYINITIAL); return TranslationsTypes.TAG_CLOSE; }
-}
-
-<TAG_WAITING_ATTRIBUTE> {
-    {BOOL}                 { yybegin(TAG_KEYED); return TranslationsTypes.BOOL; }
-    {NUMBER}               { yybegin(TAG_KEYED); return TranslationsTypes.NUMBER; }
-    {VALUE}                { yybegin(TAG_KEYED); return TranslationsTypes.VALUE; }
-}
-[^]                        { return TokenType.BAD_CHARACTER; }

@@ -5,6 +5,7 @@ import org.intellij.sdk.language.psi.TranslationsTypes;
 
 public interface TranslationsTokenSets {
 
-	TokenSet IDENTIFIERS = TokenSet.create(TranslationsTypes.TAG_KEY, TranslationsTypes.PH_KEY);
+	TokenSet IDENTIFIERS = TokenSet.create(TranslationsTypes.LITERAL);
+	TokenSet STRINGS = TokenSet.create(TranslationsTypes.TEXT_ELEMENT, TranslationsTypes.ATTRIBUTE);
 	TokenSet COMMENTS = TokenSet.create();
 }
