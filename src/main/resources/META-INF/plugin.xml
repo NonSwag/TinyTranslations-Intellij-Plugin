@@ -1,11 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>de.cubbossa.Translations-Syntax</id>
+    <id>de.cubbossa.TinyTranslations</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Translations-Syntax</name>
+    <name>TinyTranslations</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
@@ -21,95 +21,108 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
+    <depends>com.intellij.properties</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <iconProvider implementation="org.intellij.sdk.language.tinytranslations.TinyTranslationsIconProvider"/>
+
         <fileType
-                name="MinecraftTranslations"
-                implementationClass="org.intellij.sdk.language.TranslationsFileType"
+                name="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFileType"
                 fieldName="INSTANCE"
-                language="TranslationsFormat"
+                language="NanoMessage"
                 extensions="lang"
         />
         <lang.parserDefinition
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsParserDefinition"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageParserDefinition"
         />
-        <colorSettingsPage implementation="org.intellij.sdk.language.TranslationsColorSettingsPage"/>
+        <colorSettingsPage implementation="org.intellij.sdk.language.nanomessage.NanoMessageColorSettingsPage"/>
         <completion.contributor
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsCompletionContributor"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageCompletionContributor"
         />
         <lang.findUsagesProvider
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsFindUsagesProvider"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFindUsagesProvider"
         />
         <annotator
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsAnnotator"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageAnnotator"
         />
         <languageInjectionContributor
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.InTranslationsLanguageInjector"
+                language="yaml"
+                implementationClass="org.intellij.sdk.language.nanomessage.YmlLanguageInjector"
+        />
+        <languageInjectionContributor
+                language="Properties"
+                implementationClass="org.intellij.sdk.language.nanomessage.PropertiesLanguageInjector"
         />
         <colorProvider
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsElementColorProvider"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageElementColorProvider"
         />
         <defaultLiveTemplates file="/Translations.xml"/>
         <liveTemplateContext
                 contextId="Translations"
-                implementation="org.intellij.sdk.language.TranslationsClickTemplateContextType"
+                implementation="org.intellij.sdk.language.nanomessage.NanoMessageClickTemplateContextType"
         />
         <psi.referenceContributor
-                language="TranslationsFormat"
-                implementation="org.intellij.sdk.language.TranslationsReferenceContributor"
+                language="NanoMessage"
+                implementation="org.intellij.sdk.language.nanomessage.NanoMessageReferenceContributor"
         />
         <codeInsight.parameterNameHints
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsChoiceInlayHintProvider"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageChoiceInlayHintProvider"
         />
         <lang.quoteHandler
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsQuoteHandler"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageQuoteHandler"
         />
-        <lang.braceMatcher
-                language="TranslationsFormat"
-                implementationClass="org.intellij.sdk.language.TranslationsBraceMatcher"
+        <typedHandler
+                implementation="org.intellij.sdk.language.nanomessage.editor.NanoMessageTypedHandler"
+        />
+        <backspaceHandlerDelegate
+                implementation="org.intellij.sdk.language.nanomessage.editor.NanoMessageBackspaceHandler"
         />
         <codeBlockSupportHandler
-            language="TranslationsFormat"
-            implementationClass="org.intellij.sdk.language.TranslationsCodeBlockSupportHandler"
+            language="NanoMessage"
+            implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageCodeBlockSupportHandler"
         />
         <lang.foldingBuilder
-            language="TranslationsFormat"
-            implementationClass="org.intellij.sdk.language.TranslationsFolding"
+            language="NanoMessage"
+            implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFolding"
+        />
+        <multiHostInjector
+            implementation="org.intellij.sdk.language.nanomessage.LegacyInjector"
         />
 
 
         <fileType
                 name="Ampersand Styling"
-                implementationClass="org.intellij.sdk.language.AmpersandFileType"
+                implementationClass="org.intellij.sdk.language.legacy.AmpersandFileType"
                 fieldName="INSTANCE"
                 language="MinecraftAmpersand"
                 extensions="lang"
         />
         <lang.parserDefinition
                 language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.AmpersandParserDefinition"
+                implementationClass="org.intellij.sdk.language.legacy.AmpersandParserDefinition"
         />
         <annotator
                 language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.AmpersandAnnotator"
+                implementationClass="org.intellij.sdk.language.legacy.AmpersandAnnotator"
         />
         <completion.contributor
                 language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.AmpersandCompletionContributor"
+                implementationClass="org.intellij.sdk.language.legacy.AmpersandCompletionContributor"
         />
         <colorProvider
                 language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.AmpersandElementColorProvider"
+                implementationClass="org.intellij.sdk.language.legacy.AmpersandElementColorProvider"
         />
     </extensions>
 </idea-plugin>

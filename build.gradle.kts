@@ -23,7 +23,7 @@ intellij {
     version.set("2023.3.1")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf())
+    plugins.set(listOf("org.intellij.intelliLang", "org.jetbrains.plugins.yaml", "com.intellij.properties"))
 }
 
 sourceSets["main"].java.srcDirs("src/main/gen", "src/main/kotlin")

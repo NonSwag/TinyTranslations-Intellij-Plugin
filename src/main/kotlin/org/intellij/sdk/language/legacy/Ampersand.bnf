@@ -1,0 +1,26 @@
+{
+  parserClass="org.intellij.sdk.language.legacy.parser.AmpersandParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Ampersand"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.intellij.sdk.language.legacy.psi"
+  psiImplPackage="org.intellij.sdk.language.legacy.psi.impl"
+
+  elementTypeHolderClass="org.intellij.sdk.language.legacy.psi.AmpersandTypes"
+  elementTypeClass="org.intellij.sdk.language.legacy.psi.AmpersandElementType"
+  tokenTypeClass="org.intellij.sdk.language.legacy.psi.AmpersandTokenType"
+}
+
+document ::= content+ <<eof>>
+private content ::= formatter | text
+formatter ::= SYMBOL format
+format ::= color_group | deco_group
+color_group ::= color_format | hexcolor_format | special_format
+deco_group ::= deco_format | special_format
+color_format ::= COLOR
+hexcolor_format ::= HEXCOLOR
+deco_format ::= DECO
+special_format ::= SPECIAL
+text ::= MISC | ESCAPE | format | SYMBOL

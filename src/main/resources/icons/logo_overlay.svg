@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <path style="stroke-width: 0px; stroke: rgb(255, 0, 0); paint-order: fill; fill: rgb(136, 207, 255); transform-origin: 11.232px 8.876px;" d="M 14.779 10.923 L 10.415 10.293 L 7.685 6.826 L 12.052 7.456" transform="matrix(0.866025090218, -0.5, 0.5, 0.866025090218, 1.7421e-7, 7.5025e-8)"/>
+  <path style="stroke-width: 0px; stroke: rgb(255, 0, 0); paint-order: fill; fill: rgb(0, 140, 255); transform-origin: 14.765px 11.449px;" d="M 12.173 8.873 L 9.715 13.131 L 6.986 9.661 L 9.444 5.406" transform="matrix(0.866025090218, -0.5, 0.5, 0.866025090218, 0.00000113141, 0.000001699162)"/>
+  <path style="stroke-width: 0px; stroke: rgb(255, 0, 0); paint-order: fill; fill: rgb(17, 46, 153); transform-origin: 15.222px 7.306px;" d="M 14.532 8.716 L 12.073 12.976 L 7.704 12.346 L 10.164 8.087" transform="matrix(0.866025090218, -0.5, 0.5, 0.866025090218, 5.18395e-7, -2.70333e-7)"/>
+  <path style="stroke-width: 0px; stroke: rgb(255, 0, 0); paint-order: fill; fill: rgb(145, 249, 102); transform-origin: 17.679px 10.553px;" d="M 10.913 7.974 L 9.178 10.981 L 6.924 8.082 L 8.626 5.138" transform="matrix(0.866025090218, -0.5, 0.5, 0.866025090218, 8.59054e-7, 0.000001231064)"/>
+  <path style="stroke-width: 0px; stroke: rgb(255, 0, 0); paint-order: fill; fill: rgb(158, 238, 248); transform-origin: 12.87px 8.873px;" d="M 15.001 10.102 L 12.378 9.725 L 10.743 7.645 L 13.362 8.021" transform="matrix(0.866025090218, -0.5, 0.5, 0.866025090218, 3.9561e-7, 5.3762e-7)"/>
+  <path style="stroke-width: 0px; stroke: rgb(255, 0, 0); paint-order: fill; fill: rgb(31, 84, 30); transform-origin: 15.271px 7.942px;" d="M 14.853 8.778 L 13.022 11.951 L 10.423 11.54 L 12.233 8.405" transform="matrix(0.866025090218, -0.5, 0.5, 0.866025090218, 2.65824e-7, 0.000001163519)"/>
+</svg>

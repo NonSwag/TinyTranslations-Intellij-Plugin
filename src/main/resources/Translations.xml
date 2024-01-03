@@ -1,4 +1,4 @@
-<templateSet group="Translations">
+<templateSet group="NanoMessage">
     <template name="click" value="&lt;click:$ACTION$:$DATA$&gt;$END$&lt;/click&gt;" toReformat="false"
               toShortenFQNames="true">
         <variable name="ACTION"

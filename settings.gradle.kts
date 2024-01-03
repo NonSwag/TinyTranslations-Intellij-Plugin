@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Translations-Syntax"
+rootProject.name = "TinyTranslations"
