@@ -1,4 +1,6 @@
 package org.intellij.sdk.language.nanomessage.parser;
 
-public class NanoMessageParserUtil {
+import com.intellij.lang.parser.GeneratedParserUtilBase;
+
+public class NanoMessageParserUtil extends GeneratedParserUtilBase {
 }

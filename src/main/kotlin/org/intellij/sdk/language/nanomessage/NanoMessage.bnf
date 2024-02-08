@@ -1,5 +1,4 @@
 {
-  generate=false
   parserClass="org.intellij.sdk.language.nanomessage.parser.NanoMessageParser"
   parserUtilClass="org.intellij.sdk.language.nanomessage.parser.NanoMessageParserUtil"
 
@@ -20,19 +19,19 @@ root ::= contents <<eof>>
 contents ::= content*
 content ::= content_tag | self_closing_tag | placeholder | text_element | choice_placeholder
 
-content_tag ::= open_tag contents close_tag?
-open_tag ::= TAG_OPEN key attributes TAG_CLOSE
-close_tag ::= TAG_OPEN TAG_END key TAG_CLOSE
+content_tag ::= open_tag contents close_tag? {
+                                                extends="org.intellij.sdk.language.nanomessage.psi.NanoMessageInjectableContentTag"
+                                                implements=["com.intellij.psi.PsiLanguageInjectionHost"]
+                                             }
+open_tag ::= TAG_START key attributes TAG_CLOSE
+close_tag ::= END_TAG_START key TAG_CLOSE
 
-self_closing_tag ::= TAG_OPEN key attributes TAG_END TAG_CLOSE {extends=content}
-text_element ::= (MISC | WHITESPACE)+  {
-   extends="NanoMessageInjectable"
-   implements=["com.intellij.psi.PsiLanguageInjectionHost"]
-}
+self_closing_tag ::= TAG_START key attributes EMPTY_TAG_CLOSE {extends=content}
+text_element ::= (MISC | WHITESPACE)+ {extends=content}
 placeholder ::= PH_OPEN key attributes PH_CLOSE {extends=content}
 choice_placeholder ::= PH_OPEN key attributes CHOICE choice_option (SEPARATOR choice_option)* PH_CLOSE
 choice_option ::= MISC
-key ::= LITERAL
+key ::= LITERAL { extends="org.intellij.sdk.language.nanomessage.psi.NanoMessageKeyStub" implements=["com.intellij.psi.PsiNameIdentifierOwner"] }
 
 attributes ::= (SEPARATOR attribute)*
 attribute ::= NUMBER | LITERAL | (SQUOTE MISC* SQUOTE) | (DQUOTE MISC* DQUOTE)

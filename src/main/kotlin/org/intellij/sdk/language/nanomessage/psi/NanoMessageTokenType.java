@@ -13,6 +13,6 @@ public class NanoMessageTokenType extends IElementType {
 
 	@Override
 	public String toString() {
-		return "NanoMessageTokenType." + super.toString();
+		return getDebugName();
 	}
 }

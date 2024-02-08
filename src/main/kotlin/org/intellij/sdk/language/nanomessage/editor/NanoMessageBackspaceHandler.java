@@ -1,7 +1,6 @@
 package org.intellij.sdk.language.nanomessage.editor;
 
 import com.intellij.codeInsight.editorActions.BackspaceHandlerDelegate;
-import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -9,8 +8,8 @@ import org.intellij.sdk.language.nanomessage.NanoMessageFile;
 import org.intellij.sdk.language.nanomessage.psi.*;
 import org.jetbrains.annotations.NotNull;
 
-import static org.intellij.sdk.language.nanomessage.NanoMessagePsiUtils.beforeIs;
-import static org.intellij.sdk.language.nanomessage.NanoMessagePsiUtils.nextIs;
+import static org.intellij.sdk.language.nanomessage.psi.NanoMessagePsiUtils.beforeIs;
+import static org.intellij.sdk.language.nanomessage.psi.NanoMessagePsiUtils.nextIs;
 import static org.intellij.sdk.language.nanomessage.psi.NanoMessageTypes.*;
 
 public class NanoMessageBackspaceHandler extends BackspaceHandlerDelegate {
@@ -30,28 +29,6 @@ public class NanoMessageBackspaceHandler extends BackspaceHandlerDelegate {
 
 		if (at == null) {
 			return true;
-		}
-
-		if (at.getParent() instanceof NanoMessageKey key) {
-			if (key.getParent() instanceof NanoMessageOpenTag openTag) {
-				if (openTag.getParent() instanceof NanoMessageContentTag contentTag) {
-					if (contentTag.getCloseTag() != null) {
-						NanoMessageCloseTag closeTag = contentTag.getCloseTag();
-
-						int delta = offset - openTag.getTextOffset();
-						editor.getDocument().deleteString(closeTag.getTextOffset() + delta, closeTag.getTextOffset() + delta + 1);
-						return false;
-					}
-				}
-			} else if (key.getParent() instanceof NanoMessageCloseTag closeTag) {
-				if (closeTag.getParent() instanceof NanoMessageContentTag contentTag) {
-					NanoMessageOpenTag openTag = contentTag.getOpenTag();
-
-					int delta = offset - closeTag.getTextOffset();
-					editor.getDocument().deleteString(openTag.getTextOffset() + delta - 1, openTag.getTextOffset() + delta);
-					return false;
-				}
-			}
 		}
 
 		if (c == '{') {

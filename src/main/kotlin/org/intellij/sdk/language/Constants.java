@@ -2,8 +2,6 @@ package org.intellij.sdk.language;
 
 import com.intellij.util.containers.BidirectionalMap;
 import com.intellij.util.ui.UIUtil;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,37 +12,84 @@ import java.util.List;
 
 public class Constants {
 
-  public static final List<String> TAGS = new ArrayList<>(List.of(
-      "msg:", "style:", "click:", "hover:", "repeat:", "darker", "lighter", "url"
-  ));
+  public static final NamedDecoration OBFUSCATED = new NamedDecoration("obfuscated", "k");
+  public static final NamedDecoration BOLD = new NamedDecoration("bold", "l");
+  public static final NamedDecoration STRIKETHROUGH = new NamedDecoration("strikethrough", "m");
+  public static final NamedDecoration UNDERLINED = new NamedDecoration("underlined", "n");
+  public static final NamedDecoration ITALIC = new NamedDecoration("italic", "o");
+
+  private static final int BLACK_VALUE = 0x000000;
+  public static final NamedColor BLACK = new NamedColor("black", BLACK_VALUE, "0");
+  private static final int DARK_BLUE_VALUE = 0x0000aa;
+  public static final NamedColor DARK_BLUE = new NamedColor("dark_blue", DARK_BLUE_VALUE, "1");
+  private static final int DARK_GREEN_VALUE = 0x00aa00;
+  public static final NamedColor DARK_GREEN = new NamedColor("dark_green", DARK_GREEN_VALUE, "2");
+  private static final int DARK_AQUA_VALUE = 0x00aaaa;
+  public static final NamedColor DARK_AQUA = new NamedColor("dark_aqua", DARK_AQUA_VALUE, "3");
+  private static final int DARK_RED_VALUE = 0xaa0000;
+  public static final NamedColor DARK_RED = new NamedColor("dark_red", DARK_RED_VALUE, "4");
+  private static final int DARK_PURPLE_VALUE = 0xaa00aa;
+  public static final NamedColor DARK_PURPLE = new NamedColor("dark_purple", DARK_PURPLE_VALUE, "5");
+  private static final int GOLD_VALUE = 0xffaa00;
+  public static final NamedColor GOLD = new NamedColor("gold", GOLD_VALUE, "6");
+  private static final int GRAY_VALUE = 0xaaaaaa;
+  public static final NamedColor GRAY = new NamedColor("gray", GRAY_VALUE, "7");
+  private static final int DARK_GRAY_VALUE = 0x555555;
+  public static final NamedColor DARK_GRAY = new NamedColor("dark_gray", DARK_GRAY_VALUE, "8");
+  private static final int BLUE_VALUE = 0x5555ff;
+  public static final NamedColor BLUE = new NamedColor("blue", BLUE_VALUE, "9");
+  private static final int GREEN_VALUE = 0x55ff55;
+  public static final NamedColor GREEN = new NamedColor("green", GREEN_VALUE, "a");
+  private static final int AQUA_VALUE = 0x55ffff;
+  public static final NamedColor AQUA = new NamedColor("aqua", AQUA_VALUE, "b");
+  private static final int RED_VALUE = 0xff5555;
+  public static final NamedColor RED = new NamedColor("red", RED_VALUE, "c");
+  private static final int LIGHT_PURPLE_VALUE = 0xff55ff;
+  public static final NamedColor LIGHT_PURPLE = new NamedColor("light_purple", LIGHT_PURPLE_VALUE, "d");
+  private static final int YELLOW_VALUE = 0xffff55;
+  public static final NamedColor YELLOW = new NamedColor("yellow", YELLOW_VALUE, "e");
+  private static final int WHITE_VALUE = 0xffffff;
+  public static final NamedColor WHITE = new NamedColor("white", WHITE_VALUE, "f");
+
+  public static final BidirectionalMap<String, NamedColor> COLORS = new BidirectionalMap<>();
+  public static final BidirectionalMap<String, NamedDecoration> DECORATIONS = new BidirectionalMap<>();
   static {
-    Constants.TAGS.addAll(TextDecoration.NAMES.keys());
+
+    COLORS.put(BLACK.name, BLACK);
+    COLORS.put(DARK_BLUE.name, DARK_BLUE);
+    COLORS.put(DARK_GREEN.name, DARK_GREEN);
+    COLORS.put(DARK_AQUA.name, DARK_AQUA);
+    COLORS.put(DARK_RED.name, DARK_RED);
+    COLORS.put(DARK_PURPLE.name, DARK_PURPLE);
+    COLORS.put(GOLD.name, GOLD);
+    COLORS.put(GRAY.name, GRAY);
+    COLORS.put(DARK_GRAY.name, DARK_GRAY);
+    COLORS.put(BLUE.name, BLUE);
+    COLORS.put(GREEN.name, GREEN);
+    COLORS.put(AQUA.name, AQUA);
+    COLORS.put(RED.name, RED);
+    COLORS.put(LIGHT_PURPLE.name, LIGHT_PURPLE);
+    COLORS.put(YELLOW.name, YELLOW);
+    COLORS.put(WHITE.name, WHITE);
+
+    DECORATIONS.put(OBFUSCATED.name, OBFUSCATED);
+    DECORATIONS.put(BOLD.name, BOLD);
+    DECORATIONS.put(STRIKETHROUGH.name, STRIKETHROUGH);
+    DECORATIONS.put(UNDERLINED.name, UNDERLINED);
+    DECORATIONS.put(ITALIC.name, ITALIC);
   }
 
-
-  public static final BidirectionalMap<NamedTextColor, String> COLOR_ENCODINGS = new BidirectionalMap<>();
+  public static final List<String> TAGS = new ArrayList<>(List.of(
+          "msg:", "style:", "click:", "hover:", "repeat:", "darker", "lighter", "url"
+  ));
   static {
-    COLOR_ENCODINGS.put(NamedTextColor.BLACK, "0");
-    COLOR_ENCODINGS.put(NamedTextColor.DARK_BLUE, "1");
-    COLOR_ENCODINGS.put(NamedTextColor.DARK_GREEN, "2");
-    COLOR_ENCODINGS.put(NamedTextColor.DARK_AQUA, "3");
-    COLOR_ENCODINGS.put(NamedTextColor.DARK_RED, "4");
-    COLOR_ENCODINGS.put(NamedTextColor.DARK_PURPLE, "5");
-    COLOR_ENCODINGS.put(NamedTextColor.GOLD, "6");
-    COLOR_ENCODINGS.put(NamedTextColor.GRAY, "7");
-    COLOR_ENCODINGS.put(NamedTextColor.DARK_GRAY, "8");
-    COLOR_ENCODINGS.put(NamedTextColor.BLUE, "9");
-    COLOR_ENCODINGS.put(NamedTextColor.GREEN, "a");
-    COLOR_ENCODINGS.put(NamedTextColor.AQUA, "b");
-    COLOR_ENCODINGS.put(NamedTextColor.RED, "c");
-    COLOR_ENCODINGS.put(NamedTextColor.LIGHT_PURPLE, "d");
-    COLOR_ENCODINGS.put(NamedTextColor.YELLOW, "e");
-    COLOR_ENCODINGS.put(NamedTextColor.WHITE, "f");
+    Constants.TAGS.addAll(COLORS.keySet());
+    Constants.TAGS.addAll(DECORATIONS.keySet());
   }
 
   public record Suggestion(Icon icon, String sug, String name) {}
 
-  private static Suggestion ampersandColor(NamedTextColor col, char symbol) {
+  private static Suggestion ampersandColor(NamedColor col, char symbol) {
     return new Suggestion(createImageIcon(new Color(col.value()), 14, 14), "&" + symbol, col.toString().toLowerCase());
   }
 
@@ -55,9 +100,9 @@ public class Constants {
           new Suggestion(null, "strikethrough", "strikethrough")
   ));
   static {
-    COLOR_ENCODINGS.forEach((k, v) -> AMP_SUGGESTIONS_LIST.add(ampersandColor(k, v.toCharArray()[0])));
-    COLOR_ENCODINGS.forEach((k, v) -> MM_SUGGESTIONS_LIST.add(
-            new Suggestion(createImageIcon(new Color(k.value()), 14, 14), k.toString().toLowerCase(), k.toString().toLowerCase()))
+    COLORS.forEach((k, v) -> AMP_SUGGESTIONS_LIST.add(ampersandColor(v, v.symbol.toCharArray()[0])));
+    COLORS.forEach((k, v) -> MM_SUGGESTIONS_LIST.add(
+            new Suggestion(createImageIcon(new Color(v.value), 14, 14), k.toString().toLowerCase(), k.toString().toLowerCase()))
     );
   }
 
@@ -67,5 +112,16 @@ public class Constants {
     graphics.setPaint(color);
     graphics.fillRect (0, 0, width, height);
     return new ImageIcon(image);
+  }
+
+  public record NamedDecoration(String name, String symbol) {
+
+  }
+
+  public record NamedColor(String name, int value, String symbol) {
+    @Override
+    public String toString() {
+      return name();
+    }
   }
 }

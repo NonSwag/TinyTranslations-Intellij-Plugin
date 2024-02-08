@@ -18,7 +18,7 @@ public class AmpersandElementColorProvider implements ElementColorProvider {
       AmpersandColorGroup color = formatter.getFormat().getColorGroup();
       if (color != null) {
         if (color.getColorFormat() != null) {
-          return new Color(Constants.COLOR_ENCODINGS.getKeysByValue(color.getColorFormat().getText()).get(0).value());
+          return new Color(Constants.COLORS.get(color.getColorFormat().getText()).value());
         } else if (color.getHexcolorFormat() != null) {
           return new Color(Integer.parseInt(color.getHexcolorFormat().getText().substring(1), 16));
         }

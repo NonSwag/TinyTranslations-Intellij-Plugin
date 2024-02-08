@@ -21,18 +21,24 @@ public class NanoMessageElementFactory {
 		return file.getFirstChild();
 	}
 
+	public static PsiElement createKey(Project project, String key) {
+		final NanoMessageFile file = createFile(project, "<" + key + "/>");
+		// file -> contents -> self_closing -> key
+		return file.getFirstChild().getFirstChild().getFirstChild();
+	}
+
 	public static PsiElement createContentTagKey(Project project, String key, NanoMessageContents contents) {
 		final NanoMessageFile file = createFile(project, "<" + key + ">#</" + key + ">");
 
-		// file -> contents -> content_tag
-		var target = file.getFirstChild().getFirstChild();
+		// contents -> content_tag
+		var target = file.getFirstChild();
 		target.getChildren()[1].replace(contents);
 		return target;
 	}
 
 	public static NanoMessageTextElement createText(Project project, String text) {
 		final NanoMessageFile file = createFile(project, "<pre>" + text + "</pre>");
-		if (file.getFirstChild() instanceof NanoMessageContentTag contentTag) {
+		if (file.getFirstChild().getFirstChild() instanceof NanoMessageContentTag contentTag) {
 			return (NanoMessageTextElement) contentTag.getContents().getFirstChild();
 		}
 		return null;

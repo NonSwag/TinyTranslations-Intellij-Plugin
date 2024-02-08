@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.ir.backend.js.compile
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.8.21"
@@ -13,8 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation("de.cubbossa:Translations:4.0.0")
-    implementation("net.kyori:adventure-api:4.14.0")
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 }
 
 // Configure Gradle IntelliJ Plugin

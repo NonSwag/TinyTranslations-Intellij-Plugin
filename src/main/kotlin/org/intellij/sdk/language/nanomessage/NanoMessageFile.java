@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class NanoMessageFile extends PsiFileBase {
 
-	protected NanoMessageFile(@NotNull FileViewProvider viewProvider) {
+	public NanoMessageFile(@NotNull FileViewProvider viewProvider) {
 		super(viewProvider, NanoMessageLanguage.INSTANCE);
 	}
 
