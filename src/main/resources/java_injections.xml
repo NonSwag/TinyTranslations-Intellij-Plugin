@@ -1,0 +1,23 @@
+<LanguageInjectionConfiguration>
+    <injection language="MiniMessage" injector-id="java">
+        <display-name>MiniMessage (net.kyori.adventure.text.minimessage)</display-name>
+        <single-file value="false" />
+        <place><![CDATA[psiMethod().withName("escapeTags").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
+        <place><![CDATA[psiMethod().withName("escapeTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
+        <place><![CDATA[psiMethod().withName("escapeTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
+        <place><![CDATA[psiMethod().withName("stripTags").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
+        <place><![CDATA[psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
+        <place><![CDATA[psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserialize").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserialize").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserializeToTree").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserializeToTree").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserializeToTree").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("escapeTags").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("escapeTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("escapeTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("stripTags").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+    </injection>
+</LanguageInjectionConfiguration>

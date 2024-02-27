@@ -48,6 +48,10 @@ public abstract class Argument {
         return this;
     }
 
+    public boolean isOptional() {
+        return optional;
+    }
+
     public static Argument literalArgument(String literal) {
         return new Argument(literal) {
 
@@ -92,6 +96,15 @@ public abstract class Argument {
             @Override
             public boolean check(String arg) {
                 return URL_PATTERN.matcher(arg).matches();
+            }
+        };
+    }
+
+    public static Argument boolArgument() {
+        return new Argument("true|false") {
+            @Override
+            public boolean check(String arg) {
+                return arg.toLowerCase().matches("true|false");
             }
         };
     }

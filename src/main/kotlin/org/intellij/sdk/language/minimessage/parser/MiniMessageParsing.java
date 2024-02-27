@@ -272,7 +272,8 @@ public class MiniMessageParsing {
                 error(XmlPsiBundle.message("xml.parsing.unclosed.attribute.value"));
             }
         }
-        else {
+        final IElementType tt = token();
+        if (!(tt == null || tt == XML_TAG_END || tt == XML_EMPTY_ELEMENT_END || tt == MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR)) {
             error(XmlPsiBundle.message("xml.parsing.attribute.value.expected"));
         }
 

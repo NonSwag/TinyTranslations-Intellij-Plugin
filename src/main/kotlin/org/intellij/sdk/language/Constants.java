@@ -2,6 +2,8 @@ package org.intellij.sdk.language;
 
 import com.intellij.util.containers.BidirectionalMap;
 import com.intellij.util.ui.UIUtil;
+import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
+import org.intellij.sdk.language.minimessage.tag.impl.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,13 +81,11 @@ public class Constants {
     DECORATIONS.put(ITALIC.name, ITALIC);
   }
 
-  public static final List<String> TAGS = new ArrayList<>(List.of(
-          "msg:", "style:", "click:", "hover:", "repeat:", "darker", "lighter", "url"
-  ));
-  static {
-    Constants.TAGS.addAll(COLORS.keySet());
-    Constants.TAGS.addAll(DECORATIONS.keySet());
-  }
+  public static final List<MiniMessageTag> TAGS = List.of(
+          new ClickTag(), new ColorTag(), new FontTag(), new HoverTag(), new GradientTag(), new KeybindTag(),
+          new NewlineTag(), new RainbowTag(), new ResetTag(), new ScoreTag(), new SelectorTag(), new TranslatableTag(),
+          new DecorationTag(), new NegatedDecorationTag()
+  );
 
   public record Suggestion(Icon icon, String sug, String name) {}
 

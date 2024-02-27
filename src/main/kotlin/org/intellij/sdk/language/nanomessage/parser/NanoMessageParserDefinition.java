@@ -1,23 +1,18 @@
 package org.intellij.sdk.language.nanomessage.parser;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
+import com.intellij.lang.xml.XMLParserDefinition;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
-import com.intellij.psi.tree.TokenSet;
 import org.intellij.sdk.language.nanomessage.NanoMessageFile;
 import org.intellij.sdk.language.nanomessage.NanoMessageLanguage;
 import org.intellij.sdk.language.nanomessage.lexer.NanoMessageLexerAdapter;
-import org.intellij.sdk.language.nanomessage.NanoMessageTokenSets;
-import org.intellij.sdk.language.nanomessage.psi.NanoMessageTypes;
 import org.jetbrains.annotations.NotNull;
 
-public class NanoMessageParserDefinition implements ParserDefinition {
+public class NanoMessageParserDefinition extends XMLParserDefinition {
 
 	public static final IFileElementType FILE = new IFileElementType(NanoMessageLanguage.INSTANCE);
 
@@ -28,27 +23,12 @@ public class NanoMessageParserDefinition implements ParserDefinition {
 
 	@Override
 	public @NotNull PsiParser createParser(Project project) {
-		return new CustomNanoMessageParser(false);
+		return new NanoMessageParser();
 	}
 
 	@Override
 	public @NotNull IFileElementType getFileNodeType() {
 		return FILE;
-	}
-
-	@Override
-	public @NotNull TokenSet getCommentTokens() {
-		return NanoMessageTokenSets.COMMENTS;
-	}
-
-	@Override
-	public @NotNull TokenSet getStringLiteralElements() {
-		return NanoMessageTokenSets.STRINGS;
-	}
-
-	@Override
-	public @NotNull PsiElement createElement(ASTNode node) {
-		return NanoMessageTypes.Factory.createElement(node);
 	}
 
 	@Override

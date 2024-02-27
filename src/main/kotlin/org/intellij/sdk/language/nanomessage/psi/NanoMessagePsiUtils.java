@@ -1,16 +1,8 @@
 package org.intellij.sdk.language.nanomessage.psi;
 
-import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
-import org.intellij.sdk.language.nanomessage.psi.NanoMessageTypes;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
 
 public class NanoMessagePsiUtils {
 

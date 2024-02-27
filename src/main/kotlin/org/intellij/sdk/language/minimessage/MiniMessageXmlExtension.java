@@ -9,13 +9,14 @@ import org.intellij.sdk.language.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MiniMessageXmlExtension extends XmlExtension {
 
     @Override
     public boolean isValidTagNameChar(char c) {
-        return Character.isLetter(c) || Character.isDigit(c) || c == '#' || c == '_' || c == '-' || c == '.';
+        return Character.isLetter(c) || Character.isDigit(c) || c == '#' || c == '_' || c == '-' || c == '.' || c == '!' || c == '?';
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MiniMessageXmlExtension extends XmlExtension {
 
     @Override
     public @NotNull List<TagInfo> getAvailableTagNames(@NotNull XmlFile xmlFile, @NotNull XmlTag xmlTag) {
-        return List.of(new TagInfo("lol", ""));
+        return Collections.emptyList();
     }
 
     @Override

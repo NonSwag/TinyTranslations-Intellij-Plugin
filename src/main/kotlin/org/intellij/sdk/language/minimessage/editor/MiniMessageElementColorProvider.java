@@ -1,17 +1,12 @@
 package org.intellij.sdk.language.minimessage.editor;
 
-import com.intellij.ide.highlighter.XmlHighlighterFactory;
-import com.intellij.lexer.XmlHighlightingLexer;
 import com.intellij.openapi.editor.ElementColorProvider;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.XmlElementFactory;
 import com.intellij.psi.xml.XmlTag;
-import com.intellij.psi.xml.XmlTokenType;
 import org.intellij.sdk.language.Constants;
 import org.intellij.sdk.language.minimessage.psi.MiniMessagePsiFactory;
-import org.intellij.sdk.language.nanomessage.NanoMessageElementFactory;
-import org.intellij.sdk.language.nanomessage.psi.NanoMessageContentTag;
+import org.intellij.sdk.language.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +29,7 @@ public class MiniMessageElementColorProvider implements ElementColorProvider, Du
 	}
 
 	private Color getColorFrom(String string) {
+		string = StringUtil.unquote(string);
 		Constants.NamedColor color = Constants.COLORS.get(string.toLowerCase());
 		if (color != null) {
 			return new Color(color.value());

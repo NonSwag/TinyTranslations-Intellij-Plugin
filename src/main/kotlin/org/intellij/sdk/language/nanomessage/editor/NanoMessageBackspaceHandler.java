@@ -5,12 +5,12 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.intellij.sdk.language.nanomessage.NanoMessageFile;
-import org.intellij.sdk.language.nanomessage.psi.*;
+import org.intellij.sdk.language.nanomessage.NanoMessageFileType;
+import org.intellij.sdk.language.nanomessage.NanoMessageTokenType;
 import org.jetbrains.annotations.NotNull;
 
 import static org.intellij.sdk.language.nanomessage.psi.NanoMessagePsiUtils.beforeIs;
 import static org.intellij.sdk.language.nanomessage.psi.NanoMessagePsiUtils.nextIs;
-import static org.intellij.sdk.language.nanomessage.psi.NanoMessageTypes.*;
 
 public class NanoMessageBackspaceHandler extends BackspaceHandlerDelegate {
 
@@ -32,11 +32,11 @@ public class NanoMessageBackspaceHandler extends BackspaceHandlerDelegate {
 		}
 
 		if (c == '{') {
-			if (nextIs(at, PH_CLOSE)) {
+			if (nextIs(at, NanoMessageTokenType.NM_PLACEHOLDER_END)) {
 				editor.getDocument().deleteString(offset, offset + 1);
 			}
 		} else if (c == '}') {
-			if (beforeIs(at, PH_OPEN)) {
+			if (beforeIs(at, NanoMessageTokenType.NM_PLACEHOLDER_START)) {
 				editor.getDocument().deleteString(offset - 1, offset);
 			}
 		}

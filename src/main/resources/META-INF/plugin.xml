@@ -21,11 +21,16 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.intellij.intelliLang</depends>
     <depends optional="true" config-file="TinyTranslations-withYml.xml">org.jetbrains.plugins.yaml</depends>
     <depends optional="true" config-file="TinyTranslations-withProperties.xml">com.intellij.properties</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="org.intellij.intelliLang">
+        <languageSupport implementation="org.intellij.plugins.intelliLang.inject.java.JavaLanguageInjectionSupport"/>
+        <injectionConfig config="resources/java_injections.xml"/>
+    </extensions>
     <extensions defaultExtensionNs="com.intellij">
         <iconProvider implementation="org.intellij.sdk.language.tinytranslations.TinyTranslationsIconProvider"/>
 
@@ -67,14 +72,18 @@
             language="MiniMessage"
             implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlighting"
         />
+        <lang.syntaxHighlighterFactory
+            language="MiniMessage"
+            implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlightingFactory"
+        />
 
-<!--        <fileType-->
-<!--                name="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFileType"-->
-<!--                fieldName="INSTANCE"-->
-<!--                language="NanoMessage"-->
-<!--                extensions="nm"-->
-<!--        />-->
+        <fileType
+                name="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFileType"
+                fieldName="INSTANCE"
+                language="NanoMessage"
+                extensions="nm"
+        />
 <!--        <lang.parserDefinition-->
 <!--                language="NanoMessage"-->
 <!--                implementationClass="org.intellij.sdk.language.nanomessage.parser.NanoMessageParserDefinition"-->
