@@ -1,8 +1,9 @@
-package org.intellij.sdk.language.legacy;
+package org.intellij.sdk.language.legacy.ampersand;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.NlsSafe;
+import org.intellij.sdk.language.TinyTranslationsIcons;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,12 +19,12 @@ public class AmpersandFileType extends LanguageFileType {
 
 	@Override
 	public @NonNls @NotNull String getName() {
-		return "Ampersand";
+		return "MinecraftAmpersandFormatting";
 	}
 
 	@Override
 	public @NlsContexts.Label @NotNull String getDescription() {
-		return "Minecraft Ampersand";
+		return "Minecraft ampersand formatting";
 	}
 
 	@Override
@@ -33,6 +34,6 @@ public class AmpersandFileType extends LanguageFileType {
 
 	@Override
 	public Icon getIcon() {
-		return null;
+		return TinyTranslationsIcons.Logo;
 	}
 }

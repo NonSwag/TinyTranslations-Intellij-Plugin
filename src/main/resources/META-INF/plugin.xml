@@ -1,22 +1,21 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>de.cubbossa.TinyTranslations</id>
+    <id>de.cubbossa.tinytranslations</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>TinyTranslations</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="leonard.bausenwein@web.de" url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="leonard.bausenwein@web.de">CubBossa</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-  ]]></description>
+        A plugin that adds support for legacy and MiniMessage formatting for Minecraft chat.
+    ]]></description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -31,6 +30,7 @@
         <languageSupport implementation="org.intellij.plugins.intelliLang.inject.java.JavaLanguageInjectionSupport"/>
         <injectionConfig config="resources/java_injections.xml"/>
     </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
         <iconProvider implementation="org.intellij.sdk.language.tinytranslations.TinyTranslationsIconProvider"/>
 
@@ -42,7 +42,9 @@
                 language="MiniMessage"
                 extensions="mm"
         />
-        <lang.ast.factory language="MiniMessage" implementationClass="org.intellij.sdk.language.minimessage.psi.MiniMessageASTFactory" order="first"/>
+        <lang.ast.factory language="MiniMessage"
+                          implementationClass="org.intellij.sdk.language.minimessage.psi.MiniMessageASTFactory"
+                          order="first"/>
         <typedHandler implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageTypedHandler"/>
         <lang.formatter
                 language="MiniMessage"
@@ -52,7 +54,8 @@
                 language="MiniMessage"
                 implementationClass="org.intellij.sdk.language.minimessage.parser.MiniMessageParserDefinition"
         />
-        <xml.xmlTypedHandlersAdditionalSupport implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageHandlersAdditionalSupport"/>
+        <xml.xmlTypedHandlersAdditionalSupport
+                implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageHandlersAdditionalSupport"/>
         <colorProvider
                 id="MiniMessage"
                 implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageElementColorProvider"
@@ -69,91 +72,114 @@
                 implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageTagAnnotator"
         />
         <annotator
-            language="MiniMessage"
-            implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlighting"
+                language="MiniMessage"
+                implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlighting"
         />
         <lang.syntaxHighlighterFactory
-            language="MiniMessage"
-            implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlightingFactory"
+                language="MiniMessage"
+                implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlightingFactory"
         />
 
+<!--        <fileType-->
+<!--                name="NanoMessage"-->
+<!--                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFileType"-->
+<!--                fieldName="INSTANCE"-->
+<!--                language="NanoMessage"-->
+<!--                extensions="nm"-->
+<!--        />-->
+        <!--        <lang.parserDefinition-->
+        <!--                language="NanoMessage"-->
+        <!--                implementationClass="org.intellij.sdk.language.nanomessage.parser.NanoMessageParserDefinition"-->
+        <!--        />-->
+        <!--        <colorSettingsPage implementation="org.intellij.sdk.language.nanomessage.highlight.NanoMessageColorSettingsPage"/>-->
+        <!--        <completion.contributor-->
+        <!--                language="NanoMessage"-->
+        <!--                implementationClass="org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor"-->
+        <!--        />-->
+        <!--        <lang.findUsagesProvider-->
+        <!--                language="NanoMessage"-->
+        <!--                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFindUsagesProvider"-->
+        <!--        />-->
+        <!--        <annotator-->
+        <!--                language="NanoMessage"-->
+        <!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageAnnotator"-->
+        <!--        />-->
+        <!--&lt;!&ndash;        <braceMatcher filetype="NanoMessage" implementationClass="com.intellij.xml.impl.XmlBraceMatcher"/>&ndash;&gt;-->
+
+
+        <!--        <defaultLiveTemplates file="/Translations.xml"/>-->
+        <!--        <liveTemplateContext-->
+        <!--                contextId="Translations"-->
+        <!--                implementation="org.intellij.sdk.language.nanomessage.completion.NanoMessageClickTemplateContextType"-->
+        <!--        />-->
+        <!--        <psi.referenceContributor-->
+        <!--                language="NanoMessage"-->
+        <!--                implementation="org.intellij.sdk.language.nanomessage.NanoMessageReferenceContributor"-->
+        <!--        />-->
+        <!--        <codeInsight.parameterNameHints-->
+        <!--                language="NanoMessage"-->
+        <!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"-->
+        <!--        />-->
+        <!--        <lang.quoteHandler-->
+        <!--                language="NanoMessage"-->
+        <!--                implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageQuoteHandler"-->
+        <!--        />-->
+        <!--        <editorFactoryListener-->
+        <!--                implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageTagSynchronizer"-->
+        <!--        />-->
+        <!--        <lang.foldingBuilder-->
+        <!--            language="NanoMessage"-->
+        <!--            implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageFolding"-->
+        <!--        />-->
+        <!--        <multiHostInjector-->
+        <!--            implementation="org.intellij.sdk.language.tinytranslations.LegacyInjector"-->
+        <!--        />-->
+
+
         <fileType
-                name="NanoMessage"
-                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFileType"
+                name="MinecraftAmpersandFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.ampersand.AmpersandFileType"
                 fieldName="INSTANCE"
-                language="NanoMessage"
-                extensions="nm"
-        />
-<!--        <lang.parserDefinition-->
-<!--                language="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.nanomessage.parser.NanoMessageParserDefinition"-->
-<!--        />-->
-<!--        <colorSettingsPage implementation="org.intellij.sdk.language.nanomessage.highlight.NanoMessageColorSettingsPage"/>-->
-<!--        <completion.contributor-->
-<!--                language="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor"-->
-<!--        />-->
-<!--        <lang.findUsagesProvider-->
-<!--                language="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFindUsagesProvider"-->
-<!--        />-->
-<!--        <annotator-->
-<!--                language="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageAnnotator"-->
-<!--        />-->
-<!--&lt;!&ndash;        <braceMatcher filetype="NanoMessage" implementationClass="com.intellij.xml.impl.XmlBraceMatcher"/>&ndash;&gt;-->
-
-
-<!--        <defaultLiveTemplates file="/Translations.xml"/>-->
-<!--        <liveTemplateContext-->
-<!--                contextId="Translations"-->
-<!--                implementation="org.intellij.sdk.language.nanomessage.completion.NanoMessageClickTemplateContextType"-->
-<!--        />-->
-<!--        <psi.referenceContributor-->
-<!--                language="NanoMessage"-->
-<!--                implementation="org.intellij.sdk.language.nanomessage.NanoMessageReferenceContributor"-->
-<!--        />-->
-<!--        <codeInsight.parameterNameHints-->
-<!--                language="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"-->
-<!--        />-->
-<!--        <lang.quoteHandler-->
-<!--                language="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageQuoteHandler"-->
-<!--        />-->
-<!--        <editorFactoryListener-->
-<!--                implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageTagSynchronizer"-->
-<!--        />-->
-<!--        <lang.foldingBuilder-->
-<!--            language="NanoMessage"-->
-<!--            implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageFolding"-->
-<!--        />-->
-<!--        <multiHostInjector-->
-<!--            implementation="org.intellij.sdk.language.tinytranslations.LegacyInjector"-->
-<!--        />-->
-
-
-        <fileType
-                name="Ampersand"
-                implementationClass="org.intellij.sdk.language.legacy.AmpersandFileType"
-                fieldName="INSTANCE"
-                language="MinecraftAmpersand"
-                extensions="lang"
+                language="MinecraftAmpersandFormatting"
+                extensions="amp"
         />
         <lang.parserDefinition
-                language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.legacy.AmpersandParserDefinition"
+                language="MinecraftAmpersandFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.ampersand.AmpersandParserDefinition"
         />
         <annotator
-                language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.legacy.AmpersandAnnotator"
+                language="MinecraftAmpersandFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.common.editor.LegacyAnnotator"
         />
         <completion.contributor
-                language="MinecraftAmpersand"
-                implementationClass="org.intellij.sdk.language.legacy.AmpersandCompletionContributor"
+                language="MinecraftAmpersandFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.common.editor.LegacyCompletionContributor"
         />
+
+
+        <fileType
+                name="MinecraftLegacyFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.common.LegacyFileType"
+                fieldName="INSTANCE"
+                language="MinecraftLegacyFormatting"
+                extensions="leg"
+        />
+        <lang.parserDefinition
+                language="MinecraftLegacyFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.common.LegacyParserDefinition"
+        />
+        <annotator
+                language="MinecraftLegacyFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.common.editor.LegacyAnnotator"
+        />
+        <completion.contributor
+                language="MinecraftLegacyFormatting"
+                implementationClass="org.intellij.sdk.language.legacy.common.editor.LegacyCompletionContributor"
+        />
+
+
         <colorProvider
-                implementation="org.intellij.sdk.language.legacy.AmpersandElementColorProvider"
+                implementation="org.intellij.sdk.language.legacy.common.editor.LegacyElementColorProvider"
         />
     </extensions>
 </idea-plugin>

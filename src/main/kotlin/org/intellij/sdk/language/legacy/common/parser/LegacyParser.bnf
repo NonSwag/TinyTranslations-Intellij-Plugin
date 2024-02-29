@@ -1,0 +1,29 @@
+{
+  parserClass="org.intellij.sdk.language.legacy.common.parser.LegacyParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Legacy"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.intellij.sdk.language.legacy.common.psi"
+  psiImplPackage="org.intellij.sdk.language.legacy.common.psi.impl"
+
+  elementTypeHolderClass="org.intellij.sdk.language.legacy.common.psi.LegacyTypes"
+  elementTypeClass="org.intellij.sdk.language.legacy.common.psi.LegacyElementType"
+  tokenTypeClass="org.intellij.sdk.language.legacy.common.psi.LegacyTokenType"
+
+implements("formatter") = "org.intellij.sdk.language.legacy.common.psi.LegacyFormatting"
+  mixin("formatter") = "org.intellij.sdk.language.legacy.common.psi.FormatterStub"
+}
+
+document ::= content* <<eof>>
+content ::= formatter | string
+formatter ::= SYMBOL format
+private format ::= color_group | deco_group
+private color_group ::= color_format | hexcolor_format | special_format
+private deco_group ::= deco_format | special_format
+private color_format ::= COLOR
+private hexcolor_format ::= HEXCOLOR_HASH | (HEXCOLOR_X color_group{6})
+private deco_format ::= DECO
+private special_format ::= SPECIAL
+string ::= MISC | ESCAPE | format | SYMBOL

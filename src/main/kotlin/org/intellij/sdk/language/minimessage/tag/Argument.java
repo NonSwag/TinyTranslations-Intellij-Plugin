@@ -1,5 +1,6 @@
 package org.intellij.sdk.language.minimessage.tag;
 
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.lang.annotation.AnnotationHolder;
 import org.codehaus.plexus.util.cli.Arg;
 import org.intellij.sdk.language.Constants;
@@ -12,6 +13,7 @@ public abstract class Argument {
 
     protected String name;
     protected List<Argument> children;
+    protected List<LookupElement> completions;
     protected boolean optional = false;
 
     public Argument(String name) {

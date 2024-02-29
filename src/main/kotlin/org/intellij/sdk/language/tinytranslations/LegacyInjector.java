@@ -7,7 +7,7 @@ import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlText;
-import org.intellij.sdk.language.legacy.AmpersandLanguage;
+import org.intellij.sdk.language.legacy.ampersand.AmpersandLanguage;
 import org.intellij.sdk.language.nanomessage.NanoMessageFileType;
 import org.jetbrains.annotations.NotNull;
 

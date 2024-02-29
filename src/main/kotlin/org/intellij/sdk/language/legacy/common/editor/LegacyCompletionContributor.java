@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.legacy;
+package org.intellij.sdk.language.legacy.common.editor;
 
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 
-public class AmpersandCompletionContributor extends CompletionContributor {
+public class LegacyCompletionContributor extends CompletionContributor {
 
-	public AmpersandCompletionContributor() {
+	public LegacyCompletionContributor() {
 		extend(CompletionType.BASIC, psiElement().afterLeaf("&"), new CompletionProvider<>() {
 			@Override
 			protected void addCompletions(@NotNull CompletionParameters completionParameters, @NotNull ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {

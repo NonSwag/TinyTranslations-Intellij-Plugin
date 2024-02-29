@@ -4,6 +4,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.xml.SchemaPrefix;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
+import com.intellij.xml.HtmlXmlExtension;
 import com.intellij.xml.XmlExtension;
 import org.intellij.sdk.language.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class MiniMessageXmlExtension extends XmlExtension {
+public class MiniMessageXmlExtension extends HtmlXmlExtension {
 
     @Override
     public boolean isValidTagNameChar(char c) {

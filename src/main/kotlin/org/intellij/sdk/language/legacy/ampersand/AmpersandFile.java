@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.legacy;
+package org.intellij.sdk.language.legacy.ampersand;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;

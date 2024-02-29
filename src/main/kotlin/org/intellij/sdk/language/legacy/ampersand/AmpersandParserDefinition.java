@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.legacy;
+package org.intellij.sdk.language.legacy.ampersand;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -10,8 +10,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.intellij.sdk.language.legacy.parser.AmpersandParser;
-import org.intellij.sdk.language.legacy.psi.AmpersandTypes;
+import org.intellij.sdk.language.legacy.common.LegacyLexerAdapter;
+import org.intellij.sdk.language.legacy.common.parser.CustomLegacyParser;
+import org.intellij.sdk.language.legacy.common.parser.LegacyParser;
+import org.intellij.sdk.language.legacy.common.psi.LegacyTypes;
 import org.jetbrains.annotations.NotNull;
 
 public class AmpersandParserDefinition implements ParserDefinition {
@@ -20,12 +22,12 @@ public class AmpersandParserDefinition implements ParserDefinition {
 
 	@Override
 	public @NotNull Lexer createLexer(Project project) {
-		return new AmpersandLexerAdapter();
+		return new LegacyLexerAdapter(AmpersandLanguage.INSTANCE);
 	}
 
 	@Override
 	public @NotNull PsiParser createParser(Project project) {
-		return new AmpersandParser();
+		return new CustomLegacyParser();
 	}
 
 	@Override
@@ -40,12 +42,12 @@ public class AmpersandParserDefinition implements ParserDefinition {
 
 	@Override
 	public @NotNull TokenSet getStringLiteralElements() {
-		return AmpersandTokenSets.STRING;
+		return TokenSet.EMPTY;
 	}
 
 	@Override
 	public @NotNull PsiElement createElement(ASTNode astNode) {
-		return AmpersandTypes.Factory.createElement(astNode);
+		return LegacyTypes.Factory.createElement(astNode);
 	}
 
 	@Override
