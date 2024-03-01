@@ -3,9 +3,13 @@ package org.intellij.sdk.language.minimessage.editor;
 import com.intellij.openapi.editor.ElementColorProvider;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.xml.XmlAttribute;
+import com.intellij.psi.xml.XmlAttributeValue;
 import com.intellij.psi.xml.XmlTag;
 import org.intellij.sdk.language.Constants;
 import org.intellij.sdk.language.minimessage.psi.MiniMessagePsiFactory;
+import org.intellij.sdk.language.minimessage.tag.Argument;
+import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
 import org.intellij.sdk.language.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,16 +20,28 @@ public class MiniMessageElementColorProvider implements ElementColorProvider, Du
 
 	@Override
 	public @Nullable Color getColorFrom(@NotNull PsiElement psiElement) {
-		if (psiElement instanceof XmlTag tag) {
+
+		// the name is the color information
+		if (psiElement.getParent() instanceof XmlTag tag && tag.getChildren()[1].equals(psiElement)) {
 			Color c = getColorFrom(tag.getName());
 			if (c != null) {
 				return c;
 			}
-			if (tag.getAttributes().length > 0) {
+			if (tag.getName().equals("color") && tag.getAttributes().length > 0) {
 				return getColorFrom(tag.getAttributes()[0].getValueElement().getText());
 			}
+			return null;
 		}
-		return null;
+		if (!(psiElement instanceof XmlAttributeValue value)) {
+			return null;
+		}
+		if (!(value.getParent() instanceof XmlAttribute attr)) {
+			return null;
+		}
+		if (attr.getParent() == null) {
+			return null;
+		}
+		return getColorFrom(value.getText());
 	}
 
 	private Color getColorFrom(String string) {
@@ -42,14 +58,19 @@ public class MiniMessageElementColorProvider implements ElementColorProvider, Du
 
 	@Override
 	public void setColorTo(@NotNull PsiElement psiElement, @NotNull Color color) {
-        if (!(psiElement instanceof XmlTag tag)) {
-            return;
-        }
-		if (tag.getName().equals("color") && tag.getAttributes().length >= 1) {
+		if (psiElement.getParent() instanceof XmlTag tag && tag.getChildren()[1].equals(psiElement)) {
 			tag.getAttributes()[0].setValue(toString(color));
 			return;
 		}
-        MiniMessagePsiFactory.renameTag(tag, toString(color));
+		if (!(psiElement instanceof XmlAttributeValue value)) {
+			return;
+		}
+		if (!(value.getParent() instanceof XmlAttribute attr)) {
+			return;
+		}
+		value.deleteChildRange(value.getFirstChild(), value.getLastChild());
+		XmlAttributeValue newValue = MiniMessagePsiFactory.createAttributeValue(attr.getParent(), toString(color));
+		value.addRange(newValue.getFirstChild(), newValue.getLastChild());
     }
 
 	private String toString(Color color) {

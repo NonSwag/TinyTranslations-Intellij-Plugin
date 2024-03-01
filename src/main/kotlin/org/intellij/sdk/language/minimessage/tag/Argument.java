@@ -1,13 +1,20 @@
 package org.intellij.sdk.language.minimessage.tag;
 
 import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.lang.annotation.AnnotationHolder;
-import org.codehaus.plexus.util.cli.Arg;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.patterns.PlatformPatterns;
+import com.intellij.patterns.PsiJavaPatterns;
+import com.intellij.psi.PsiClass;
 import org.intellij.sdk.language.Constants;
+import org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static com.intellij.patterns.PlatformPatterns.psiElement;
+import static com.intellij.patterns.PsiJavaPatterns.*;
 
 public abstract class Argument {
 
@@ -23,6 +30,7 @@ public abstract class Argument {
     public Argument(String name, List<Argument> children) {
         this.name = name;
         this.children = children;
+        this.completions = new ArrayList<>();
     }
 
     public String getName() {
@@ -33,12 +41,35 @@ public abstract class Argument {
         return children;
     }
 
+    public List<LookupElement> getCompletions() {
+        return completions;
+    }
+
     @Override
     public String toString() {
         return "Arg(" + name + ")";
     }
 
     public abstract boolean check(String arg);
+
+    public Argument completions(String completion) {
+        completions.add(LookupElementBuilder.create(completion));
+        return this;
+    }
+
+    public Argument completions(String... completions) {
+        this.completions.addAll(Arrays.stream(completions).map(LookupElementBuilder::create).toList());
+        return this;
+    }
+
+    public Argument completions(Iterable<LookupElement> elements) {
+        elements.forEach(completions::add);
+        return this;
+    }
+    public Argument completions(LookupElement element) {
+        this.completions.add(element);
+        return this;
+    }
 
     public Argument argument(Argument argument) {
         children.add(argument);
@@ -61,7 +92,7 @@ public abstract class Argument {
             public boolean check(String arg) {
                 return arg.equalsIgnoreCase(literal);
             }
-        };
+        }.completions(literal);
     }
 
     public static Argument textArgument() {
@@ -79,7 +110,7 @@ public abstract class Argument {
             public boolean check(String arg) {
                 return arg.startsWith("/");
             }
-        };
+        }.completions("/");
     }
 
     public static Argument fileArgument() {
@@ -118,7 +149,7 @@ public abstract class Argument {
             public boolean check(String arg) {
                 return Constants.COLORS.containsKey(arg) || HEX_REGEX.matcher(arg).matches();
             }
-        };
+        }.completions(MiniMessageCompletionContributor.colorCompletions());
     }
 
     public static Argument miniMessageArgument() {
@@ -136,7 +167,7 @@ public abstract class Argument {
             public boolean check(String arg) {
                 return arg.matches("@\\[([a-zA-Z0-9_-]+=.+)*]");
             }
-        };
+        }.completions("@p[", "@a[", "@e[", "@r[");
     }
 
     public static Argument intArgument(int from) {
@@ -158,7 +189,7 @@ public abstract class Argument {
     }
 
     public static Argument intArgument(int from, int to) {
-        return new Argument("<integer: " + from + ":" + to + ">") {
+        return new Argument("<integer: " + (from == Integer.MIN_VALUE ? "-max" : from) + ":" + (from == Integer.MAX_VALUE ? "max" : to) + ">") {
             @Override
             public boolean check(String arg) {
                 try {
@@ -209,7 +240,7 @@ public abstract class Argument {
             public boolean check(String arg) {
                 return true; //TODO _type_[:_count_[:tag]]
             }
-        };
+        }.completions(LookupElementBuilder.create(psiField().inClass(psiClass().withQualifiedName("org.bukkit.Material"))));
     }
 
     public static Argument entityArgument() {

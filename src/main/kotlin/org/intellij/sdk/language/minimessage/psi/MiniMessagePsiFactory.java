@@ -3,6 +3,7 @@ package org.intellij.sdk.language.minimessage.psi;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.xml.XmlAttributeValue;
 import com.intellij.psi.xml.XmlTag;
 import org.intellij.sdk.language.minimessage.MiniMessageFile;
 import org.intellij.sdk.language.minimessage.MiniMessageFileType;
@@ -17,6 +18,14 @@ public class MiniMessagePsiFactory {
         return (MiniMessageFile) PsiFileFactory.getInstance(project).createFileFromText(name, MiniMessageLanguage.INSTANCE, text);
     }
 
+    public static XmlAttributeValue createAttributeValue(XmlTag tag, String value) {
+        return createAttributeValue(tag, value, "'");
+    }
+    public static XmlAttributeValue createAttributeValue(XmlTag tag, String value, String quote) {
+        MiniMessageFile file = createFile(tag.getProject(), "<dummy:" + quote + value + quote + "/>");
+        XmlTag t = (XmlTag) file.getFirstChild().getFirstChild();
+        return t.getAttributes()[0].getValueElement();
+    }
 
     public static void renameTag(XmlTag tag, String name) {
         PsiElement o = tag.getChildren()[1];

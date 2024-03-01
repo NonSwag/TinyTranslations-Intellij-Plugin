@@ -3,17 +3,25 @@ package org.intellij.sdk.language.minimessage.editor;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.psi.xml.XmlElementType;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.xml.XmlAttribute;
+import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTokenType;
 import com.intellij.util.Function;
 import com.intellij.util.ProcessingContext;
 import org.intellij.sdk.language.Constants;
-import org.intellij.sdk.language.minimessage.MiniMessageTokenType;
+import org.intellij.sdk.language.minimessage.MiniMessageLanguage;
 import org.intellij.sdk.language.minimessage.tag.Argument;
+import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 import static org.intellij.sdk.language.TinyTranslationsIcons.Tag;
@@ -26,15 +34,9 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
             protected void addCompletions(@NotNull CompletionParameters params,
                                           @NotNull ProcessingContext processingContext,
                                           @NotNull CompletionResultSet completionResultSet) {
-                Constants.COLORS.values().forEach((el) -> {
-                    String name = el.toString().toLowerCase();
-                    completionResultSet.addElement(element(params, name, "color",
-                            Constants.createImageIcon(new Color(el.value()), 14, 14)));
-                });
-//				for (GlobalStyles value : GlobalStyles.values()) {
-//					completionResultSet.addElement(element(params, value.name().toLowerCase(), "style",
-//							Tag));
-//				}
+
+                completionResultSet.addAllElements(colorCompletions());
+
                 Constants.TAGS.forEach(miniMessageTag -> {
                     boolean needsArg = !miniMessageTag.getChildren().isEmpty() && miniMessageTag.getChildren().stream()
                             .noneMatch(Argument::isOptional);
@@ -43,15 +45,15 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
                             .withPresentableText(miniMessageTag.getName()));
                 });
 
-                completionResultSet.addElement(element(params, "bold", "decoration",
+                completionResultSet.addElement(element("bold", "decoration",
                         Tag, e -> e.withBoldness(true)));
-                completionResultSet.addElement(element(params, "underlined", "decoration",
+                completionResultSet.addElement(element("underlined", "decoration",
                         Tag, e -> e.withItemTextUnderlined(true)));
-                completionResultSet.addElement(element(params, "italic", "decoration",
+                completionResultSet.addElement(element("italic", "decoration",
                         Tag, e -> e.withItemTextItalic(true)));
-                completionResultSet.addElement(element(params, "strikethrough", "decoration",
+                completionResultSet.addElement(element("strikethrough", "decoration",
                         Tag, e -> e.withStrikeoutness(true)));
-                completionResultSet.addElement(element(params, "obfuscated", "decoration",
+                completionResultSet.addElement(element("obfuscated", "decoration",
                         Tag));
             }
         });
@@ -61,17 +63,72 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
             protected void addCompletions(@NotNull CompletionParameters params,
                                           @NotNull ProcessingContext processingContext,
                                           @NotNull CompletionResultSet completionResultSet) {
-                // TODO make suggestions for arguments where possible (string constants like click actions)
-                // completionResultSet.addElement(LookupElementBuilder.create("yup"));
+
+                FileViewProvider provider = params.getOriginalFile().getViewProvider();
+                Editor editor = params.getEditor();
+                int offset = editor.getCaretModel().getOffset();
+
+                PsiElement element = null;
+                if (offset < editor.getDocument().getTextLength()) {
+                    element = provider.findElementAt(offset, MiniMessageLanguage.class);
+
+                    if (element == null && offset > 0) {
+                        element = provider.findElementAt(offset - 1, MiniMessageLanguage.class);
+                    }
+                }
+                XmlAttribute attr = null;
+                if (element instanceof XmlAttribute t) {
+                    attr = t;
+                } else if (element.getParent() instanceof XmlAttribute t) {
+                    attr = t;
+                }
+                if (attr != null) {
+                    XmlTag x = attr.getParent();
+                    MiniMessageTag tag = Constants.TAGS.stream().filter(miniMessageTag -> miniMessageTag.check(x.getName())).findFirst().get();
+                    if (tag == null) {
+                        return;
+                    }
+                    Collection<Argument> matches = new HashSet<>();
+                    matches.add(tag);
+                    int offsetInParent = -2;
+                    PsiElement a = attr;
+                    while (a.getPrevSibling() != null) {
+                        a = a.getPrevSibling();
+                        offsetInParent ++;
+                    }
+                    for (int i = 0; i < offsetInParent; i++) {
+                        final int fi = i;
+                        matches = new HashSet<>(matches).stream()
+                                .map(argument -> argument.getChildren().stream()
+                                        .filter(c -> c.check(x.getAttributes()[fi].getValue()))
+                                        .toList())
+                                .flatMap(Collection::stream)
+                                .toList();
+                    }
+                    matches = matches.stream().flatMap(argument -> argument.getChildren().stream()).toList();
+                    matches.forEach(argument -> {
+                        completionResultSet.addAllElements(argument.getCompletions());
+                    });
+                }
             }
         });
     }
 
-    private LookupElement element(CompletionParameters completionParameters, String name, String type, Icon icon) {
-        return element(completionParameters, name, type, icon, null);
+    public static Iterable<LookupElement> colorCompletions() {
+        Collection<LookupElement> result = new ArrayList<>();
+        Constants.COLORS.values().forEach((el) -> {
+            String name = el.toString().toLowerCase();
+            result.add(element(name, "color",
+                    Constants.createImageIcon(new Color(el.value()), 14, 14)));
+        });
+        return result;
     }
 
-    private LookupElement element(CompletionParameters completionParameters, String name, String type, Icon icon, Function<LookupElementBuilder, LookupElementBuilder> fun) {
+    public static LookupElement element(String name, String type, Icon icon) {
+        return element(name, type, icon, null);
+    }
+
+    public static LookupElement element(String name, String type, Icon icon, Function<LookupElementBuilder, LookupElementBuilder> fun) {
         var el = LookupElementBuilder
                 .create(name)
                 .withPresentableText(name)

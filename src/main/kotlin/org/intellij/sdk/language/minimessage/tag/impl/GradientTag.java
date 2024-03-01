@@ -1,6 +1,8 @@
 package org.intellij.sdk.language.minimessage.tag.impl;
 
 import org.intellij.sdk.language.Constants;
+import org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor;
+import org.intellij.sdk.language.minimessage.editor.MiniMessageElementColorProvider;
 import org.intellij.sdk.language.minimessage.tag.Argument;
 import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
 
@@ -25,9 +27,9 @@ public class GradientTag extends MiniMessageTag {
             public List<Argument> getChildren() {
                 return List.of(
                     repeatingArg(),
-                    GradientTag.intArgument(0)
+                    GradientTag.intArgument(0).optional()
                 );
             }
-        };
+        }.completions(MiniMessageCompletionContributor.colorCompletions());
     }
 }

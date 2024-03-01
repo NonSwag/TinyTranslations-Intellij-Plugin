@@ -21,6 +21,7 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>org.intellij.intelliLang</depends>
+    <depends>com.intellij.java</depends>
     <depends optional="true" config-file="TinyTranslations-withYml.xml">org.jetbrains.plugins.yaml</depends>
     <depends optional="true" config-file="TinyTranslations-withProperties.xml">com.intellij.properties</depends>
 
@@ -63,9 +64,6 @@
         <completion.contributor
                 language="MiniMessage"
                 implementationClass="org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor"
-        />
-        <editorFactoryListener
-                implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageTagSynchronizer"
         />
         <annotator
                 language="MiniMessage"

@@ -57,7 +57,7 @@ public class MiniMessageTagAnnotator implements Annotator, DumbAware {
             return Map.entry(level, () -> {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Required argument missing: " + argument.getChildren().stream()
                         .filter(a -> !a.isOptional()).map(Argument::getName).collect(Collectors.joining("|")))
-                        .range(attributes[attributes.length - 1])
+                        .range(attributes[attributes.length - 1].getLastChild())
                         .create();
             });
         }

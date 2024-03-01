@@ -8,6 +8,7 @@
         <place><![CDATA[psiMethod().withName("stripTags").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
         <place><![CDATA[psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
         <place><![CDATA[psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage")]]></place>
+        <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserialize").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
         <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserialize").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
         <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserialize").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
         <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("deserializeToTree").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
@@ -19,5 +20,192 @@
         <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("stripTags").withParameters("java.lang.String").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
         <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
         <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("stripTags").withParameters("java.lang.String", "net.kyori.adventure.text.minimessage.tag.resolver.TagResolver...").definedInClass("net.kyori.adventure.text.minimessage.MiniMessage"))]]></place>
+    </injection>
+
+    <injection language="MinecraftLegacyFormatting" injector-id="java">
+        <display-name>ItemMeta (org.bukkit.inventory.meta)</display-name>
+        <single-file value="false"/>
+        <place>
+            <![CDATA[ psiMethod().withName("getDisplayName").withParameters().definedInClass("org.bukkit.inventory.meta.ItemMeta") ]]>
+        </place>
+        <place>
+            <![CDATA[ psiMethod().withName("getLocalizedName").withParameters().definedInClass("org.bukkit.inventory.meta.ItemMeta") ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setDisplayName").withParameters("java.lang.String").definedInClass("org.bukkit.inventory.meta.ItemMeta")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setLocalizedName").withParameters("java.lang.String").definedInClass("org.bukkit.inventory.meta.ItemMeta")) ]]>
+        </place>
+    </injection>
+
+    <injection language="MinecraftLegacyFormatting" injector-id="java">
+        <display-name>Bukkit (org.bukkit)</display-name>
+        <single-file value="false"/>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("broadcast").withParameters("java.lang.String", "java.lang.String").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("broadcastMessage").withParameters("java.lang.String").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("createBossBar").withParameters("java.lang.String", "org.bukkit.boss.BarColor", "org.bukkit.boss.BarStyle", "org.bukkit.boss.BarFlag...").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("createMerchant").withParameters("java.lang.String").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setMotd").withParameters("java.lang.String").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(1, psiMethod().withName("createBossBar").withParameters("org.bukkit.NamespacedKey", "java.lang.String", "org.bukkit.boss.BarColor", "org.bukkit.boss.BarStyle", "org.bukkit.boss.BarFlag...").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(2, psiMethod().withName("createInventory").withParameters("org.bukkit.inventory.InventoryHolder", "int", "java.lang.String").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(2, psiMethod().withName("createInventory").withParameters("org.bukkit.inventory.InventoryHolder", "org.bukkit.event.inventory.InventoryType", "java.lang.String").definedInClass("org.bukkit.Bukkit")) ]]>
+        </place>
+    </injection>
+
+    <injection language="MinecraftLegacyFormatting" injector-id="java">
+        <display-name>InventoryView (org.bukkit.inventory)</display-name>
+        <single-file value="false"/>
+        <place>
+            <![CDATA[ psiMethod().withName("getTitle").withParameters().definedInClass("org.bukkit.inventory.InventoryView") ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setTitle").withParameters("java.lang.String").definedInClass("org.bukkit.inventory.InventoryView")) ]]>
+        </place>
+    </injection>
+
+    <injection language="MinecraftLegacyFormatting" injector-id="java">
+        <display-name>CommandSender (org.bukkit.command)</display-name>
+        <single-file value="false"/>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("sendMessage").withParameters("java.lang.String").definedInClass("org.bukkit.command.CommandSender")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("sendMessage").withParameters("java.lang.String...").definedInClass("org.bukkit.command.CommandSender")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(1, psiMethod().withName("sendMessage").withParameters("java.util.UUID", "java.lang.String").definedInClass("org.bukkit.command.CommandSender")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(1, psiMethod().withName("sendMessage").withParameters("java.util.UUID", "java.lang.String...").definedInClass("org.bukkit.command.CommandSender")) ]]>
+        </place>
+    </injection>
+
+    <injection language="MinecraftLegacyFormatting" injector-id="java">
+        <display-name>Player (org.bukkit.entity)</display-name>
+        <single-file value="false"/>
+        <place>
+            <![CDATA[ psiMethod().withName("getDisplayName").withParameters().definedInClass("org.bukkit.entity.Player") ]]>
+        </place>
+        <place>
+            <![CDATA[ psiMethod().withName("getPlayerListFooter").withParameters().definedInClass("org.bukkit.entity.Player") ]]>
+        </place>
+        <place>
+            <![CDATA[ psiMethod().withName("getPlayerListHeader").withParameters().definedInClass("org.bukkit.entity.Player") ]]>
+        </place>
+        <place>
+            <![CDATA[ psiMethod().withName("getPlayerListName").withParameters().definedInClass("org.bukkit.entity.Player") ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("ban").withParameters("java.lang.String", "java.time.Duration", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("ban").withParameters("java.lang.String", "java.time.Instant", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("ban").withParameters("java.lang.String", "java.util.Date", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banIp").withParameters("java.lang.String", "java.time.Duration", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banIp").withParameters("java.lang.String", "java.time.Instant", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banIp").withParameters("java.lang.String", "java.util.Date", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerFull").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerFull").withParameters("java.lang.String", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerFull").withParameters("java.lang.String", "java.util.Date").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerFull").withParameters("java.lang.String", "java.util.Date", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String", "java.util.Date").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String", "java.util.Date", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String", "java.util.Date", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("banPlayerIP").withParameters("java.lang.String", "java.util.Date", "java.lang.String", "boolean").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("chat").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("kickPlayer").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("sendActionBar").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("sendTitle").withParameters("java.lang.String", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("sendTitle").withParameters("java.lang.String", "java.lang.String", "int", "int", "int").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setDisplayName").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setPlayerListFooter").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setPlayerListHeader").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setPlayerListHeaderFooter").withParameters("java.lang.String", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(0, psiMethod().withName("setPlayerListName").withParameters("java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(1, psiMethod().withName("sendActionBar").withParameters("char", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(1, psiMethod().withName("sendTitle").withParameters("java.lang.String", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(1, psiMethod().withName("sendTitle").withParameters("java.lang.String", "java.lang.String", "int", "int", "int").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
+        <place>
+            <![CDATA[ psiParameter().ofMethod(1, psiMethod().withName("setPlayerListHeaderFooter").withParameters("java.lang.String", "java.lang.String").definedInClass("org.bukkit.entity.Player")) ]]>
+        </place>
     </injection>
 </LanguageInjectionConfiguration>
