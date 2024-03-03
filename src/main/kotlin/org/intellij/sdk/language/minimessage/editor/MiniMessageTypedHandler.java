@@ -46,7 +46,7 @@ public class MiniMessageTypedHandler extends TypedHandlerDelegate {
                 return Result.CONTINUE;
             }
             IElementType tt = element.getNode().getElementType();
-            if (!(tt == XmlTokenType.XML_NAME || tt == XmlTokenType.XML_TAG_NAME || tt == XmlTokenType.XML_TAG_END)) {
+            if (!(tt == XmlTokenType.XML_NAME || tt == XmlTokenType.XML_TAG_NAME || tt == XmlTokenType.XML_TAG_END || tt == XmlTokenType.XML_WHITE_SPACE)) {
                 return Result.CONTINUE;
             }
 			EditorModificationUtil.insertStringAtCaret(editor, ">", true, true, 1);
@@ -54,6 +54,8 @@ public class MiniMessageTypedHandler extends TypedHandlerDelegate {
 			selectRelatively(editor, -1, 0);
 			EditorModificationUtil.deleteSelectedText(editor);
 			EditorModificationUtil.moveCaretRelatively(editor, 1);
+
+            PsiDocumentManager.getInstance(project).commitAllDocuments();
 			AutoPopupController.getInstance(project).scheduleAutoPopup(editor);
 			return Result.STOP;
         }

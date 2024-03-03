@@ -6,12 +6,12 @@ import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlText;
 import org.intellij.sdk.language.minimessage.MiniMessageLanguage;
 
-public class NanoMessageLanguage extends XMLLanguage {
+public class NanoMessageLanguage extends MiniMessageLanguage {
 
 	public static final NanoMessageLanguage INSTANCE = new NanoMessageLanguage();
 
 	protected NanoMessageLanguage(String name) {
-		super(MiniMessageLanguage.INSTANCE, name);
+		super(name);
 	}
 
 	protected NanoMessageLanguage() {

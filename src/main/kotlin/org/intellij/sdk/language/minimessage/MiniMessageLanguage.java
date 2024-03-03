@@ -8,6 +8,10 @@ public class MiniMessageLanguage extends Language {
 
     public static final MiniMessageLanguage INSTANCE = new MiniMessageLanguage();
 
+    protected MiniMessageLanguage(String name) {
+        super(MiniMessageLanguage.INSTANCE, name);
+    }
+
     private MiniMessageLanguage() {
         super(XMLLanguage.INSTANCE, "MiniMessage");
     }

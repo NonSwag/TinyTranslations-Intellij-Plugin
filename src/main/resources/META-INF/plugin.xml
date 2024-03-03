@@ -78,17 +78,22 @@
                 implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlightingFactory"
         />
 
-<!--        <fileType-->
-<!--                name="NanoMessage"-->
-<!--                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFileType"-->
-<!--                fieldName="INSTANCE"-->
-<!--                language="NanoMessage"-->
-<!--                extensions="nm"-->
-<!--        />-->
-        <!--        <lang.parserDefinition-->
-        <!--                language="NanoMessage"-->
-        <!--                implementationClass="org.intellij.sdk.language.nanomessage.parser.NanoMessageParserDefinition"-->
-        <!--        />-->
+        <fileType
+                name="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFileType"
+                fieldName="INSTANCE"
+                language="NanoMessage"
+                extensions="nm"
+        />
+        <lang.parserDefinition
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.parser.NanoMessageParserDefinition"
+        />
+        <annotator
+                order="last"
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageAnnotator"
+        />
         <!--        <colorSettingsPage implementation="org.intellij.sdk.language.nanomessage.highlight.NanoMessageColorSettingsPage"/>-->
         <!--        <completion.contributor-->
         <!--                language="NanoMessage"-->
@@ -97,10 +102,6 @@
         <!--        <lang.findUsagesProvider-->
         <!--                language="NanoMessage"-->
         <!--                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFindUsagesProvider"-->
-        <!--        />-->
-        <!--        <annotator-->
-        <!--                language="NanoMessage"-->
-        <!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageAnnotator"-->
         <!--        />-->
         <!--&lt;!&ndash;        <braceMatcher filetype="NanoMessage" implementationClass="com.intellij.xml.impl.XmlBraceMatcher"/>&ndash;&gt;-->
 
@@ -117,17 +118,6 @@
         <!--        <codeInsight.parameterNameHints-->
         <!--                language="NanoMessage"-->
         <!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"-->
-        <!--        />-->
-        <!--        <lang.quoteHandler-->
-        <!--                language="NanoMessage"-->
-        <!--                implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageQuoteHandler"-->
-        <!--        />-->
-        <!--        <editorFactoryListener-->
-        <!--                implementation="org.intellij.sdk.language.minimessage.editor.MiniMessageTagSynchronizer"-->
-        <!--        />-->
-        <!--        <lang.foldingBuilder-->
-        <!--            language="NanoMessage"-->
-        <!--            implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageFolding"-->
         <!--        />-->
         <!--        <multiHostInjector-->
         <!--            implementation="org.intellij.sdk.language.tinytranslations.LegacyInjector"-->

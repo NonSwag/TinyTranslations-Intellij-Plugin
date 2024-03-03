@@ -18,6 +18,17 @@ public class MiniMessageHighlighting implements Annotator, DumbAware {
     public void annotate(@NotNull PsiElement psiElement, @NotNull AnnotationHolder annotationHolder) {
         if (psiElement instanceof XmlTag tag) {
 
+            for (XmlAttribute attribute : tag.getAttributes()) {
+                annotationHolder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                        .range(attribute.getValueElement())
+                        .textAttributes(XmlHighlighterColors.XML_ATTRIBUTE_VALUE)
+                        .create();
+            }
+
+            if (tag.getFirstChild().getText() != "<") {
+                return;
+            }
+
             int i = 0;
             for (PsiElement child : tag.getChildren()) {
                 if (child.getNode().getElementType() == XmlTokenType.XML_END_TAG_START) {
@@ -29,12 +40,6 @@ public class MiniMessageHighlighting implements Annotator, DumbAware {
                 if (child.getNode().getElementType() == XmlTokenType.XML_TAG_END) {
                     i++;
                 }
-            }
-            for (XmlAttribute attribute : tag.getAttributes()) {
-                annotationHolder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                        .range(attribute.getValueElement())
-                        .textAttributes(XmlHighlighterColors.XML_ATTRIBUTE_VALUE)
-                        .create();
             }
         }
     }

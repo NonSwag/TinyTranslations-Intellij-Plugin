@@ -16,6 +16,7 @@ import org.intellij.sdk.language.minimessage.MiniMessageLanguage;
 import org.intellij.sdk.language.minimessage.tag.Argument;
 import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,6 +82,8 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
                     attr = t;
                 } else if (element.getParent() instanceof XmlAttribute t) {
                     attr = t;
+                } else if (element.getParent().getParent() instanceof  XmlAttribute t) {
+                    attr = t;
                 }
                 if (attr != null) {
                     XmlTag x = attr.getParent();
@@ -112,6 +115,11 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
                 }
             }
         });
+    }
+
+    @Override
+    public @Nullable AutoCompletionDecision handleAutoCompletionPossibility(@NotNull AutoCompletionContext context) {
+        return AutoCompletionDecision.SHOW_LOOKUP;
     }
 
     public static Iterable<LookupElement> colorCompletions() {

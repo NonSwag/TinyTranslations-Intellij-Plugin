@@ -1,10 +1,12 @@
 package org.intellij.sdk.language.nanomessage.parser;
 
+import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.xml.XMLParserDefinition;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import org.intellij.sdk.language.nanomessage.NanoMessageFile;
@@ -34,5 +36,10 @@ public class NanoMessageParserDefinition extends XMLParserDefinition {
 	@Override
 	public @NotNull PsiFile createFile(@NotNull FileViewProvider viewProvider) {
 		return new NanoMessageFile(viewProvider);
+	}
+
+	@Override
+	public @NotNull PsiElement createElement(ASTNode node) {
+		return super.createElement(node);
 	}
 }

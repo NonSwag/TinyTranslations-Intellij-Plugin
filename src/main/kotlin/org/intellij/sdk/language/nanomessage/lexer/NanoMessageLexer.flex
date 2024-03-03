@@ -4,8 +4,7 @@ package org.intellij.sdk.language.nanomessage.lexer;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.*;
-import com.intellij.psi.xml.*;
-import org.intellij.sdk.language.nanomessage.NanoMessageTokenType;
+import com.intellij.psi.xml.*;import org.intellij.sdk.language.minimessage.MiniMessageTokenType;import org.intellij.sdk.language.nanomessage.NanoMessageTokenType;
 
 %%
 
@@ -25,7 +24,8 @@ import org.intellij.sdk.language.nanomessage.NanoMessageTokenType;
 //%debug
 
 %state COMMENT
-%state TAG_NAME
+%state START_TAG_NAME
+%state END_TAG_NAME
 %state TAG_ATTRIBUTES
 %state ATTRIBUTE_VALUE_START
 %state ATTRIBUTE_VALUE
@@ -47,9 +47,13 @@ END_COMMENT="-->"
 
 
 <YYINITIAL> {WHITE_SPACE_CHARS} { return XmlTokenType.XML_REAL_WHITE_SPACE; }
-<TAG_ATTRIBUTES,ATTRIBUTE_VALUE_START, TAG_NAME, TAG_CHARACTERS> {WHITE_SPACE_CHARS} { return XmlTokenType.XML_WHITE_SPACE; }
-<YYINITIAL> "{" {TAG_NAME} { yybegin(TAG_NAME); yypushback(yylength()); }
-<TAG_NAME, TAG_CHARACTERS> "{" { return XmlTokenType.XML_START_TAG_START; }
+<TAG_ATTRIBUTES,ATTRIBUTE_VALUE_START, START_TAG_NAME, END_TAG_NAME, TAG_CHARACTERS> {WHITE_SPACE_CHARS} { return XmlTokenType.XML_WHITE_SPACE; }
+<YYINITIAL> ("<" | "{") {TAG_NAME} { yybegin(START_TAG_NAME); yypushback(yylength()); }
+<START_TAG_NAME, TAG_CHARACTERS> "<" { return XmlTokenType.XML_START_TAG_START; }
+<START_TAG_NAME, TAG_CHARACTERS> "{" { return NanoMessageTokenType.NM_PLACEHOLDER_START; }
+
+<YYINITIAL> "</" {TAG_NAME} { yybegin(END_TAG_NAME); yypushback(yylength()); }
+<YYINITIAL, END_TAG_NAME> "</" { return XmlTokenType.XML_END_TAG_START; }
 
 <YYINITIAL> "<!--" { yybegin(COMMENT); return XmlTokenType.XML_COMMENT_START; }
 <COMMENT> {END_COMMENT} | "<!-->" { yybegin(YYINITIAL); return XmlTokenType.XML_COMMENT_END; }
@@ -69,19 +73,24 @@ END_COMMENT="-->"
 }
 <COMMENT> [^] { return XmlTokenType.XML_COMMENT_CHARACTERS; }
 
-<TAG_NAME> {TAG_NAME} { yybegin(TAG_ATTRIBUTES); return XmlTokenType.XML_NAME; }
+<START_TAG_NAME, END_TAG_NAME> {TAG_NAME} { yybegin(TAG_ATTRIBUTES); return XmlTokenType.XML_NAME; }
 
-<TAG_ATTRIBUTES, TAG_CHARACTERS> "}" { yybegin(YYINITIAL); return XmlTokenType.XML_TAG_END; }
-<TAG_ATTRIBUTES, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> ":" { yybegin(ATTRIBUTE_VALUE_START); return nanomessageTokenType.MM_ATTRIBUTE_SEPARATOR; }
-<TAG_ATTRIBUTES, TAG_NAME> [^] { yybegin(YYINITIAL); yypushback(1); break; }
+<TAG_ATTRIBUTES, TAG_CHARACTERS> "/>" { yybegin(YYINITIAL); return XmlTokenType.XML_EMPTY_ELEMENT_END; }
+<TAG_ATTRIBUTES, TAG_CHARACTERS> "}" { yybegin(YYINITIAL); return NanoMessageTokenType.NM_PLACEHOLDER_END; }
+<TAG_ATTRIBUTES, TAG_CHARACTERS> ">" { yybegin(YYINITIAL); return XmlTokenType.XML_TAG_END; }
+<TAG_ATTRIBUTES, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> ":" { yybegin(ATTRIBUTE_VALUE_START); return MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR; }
+<TAG_ATTRIBUTES, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> "?" { yybegin(ATTRIBUTE_VALUE_START); return NanoMessageTokenType.NM_CHOICE_MARKER; }
+<TAG_ATTRIBUTES, START_TAG_NAME, END_TAG_NAME> [^] { yybegin(YYINITIAL); yypushback(1); break; }
 
 <TAG_CHARACTERS> [^] { return XmlTokenType.XML_TAG_CHARACTERS; }
 
-<ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> "}" { yybegin(YYINITIAL); return XmlTokenType.XML_TAG_END; }
+<ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> ">" { yybegin(YYINITIAL); return XmlTokenType.XML_TAG_END; }
+<ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> "/>" { yybegin(YYINITIAL); return XmlTokenType.XML_EMPTY_ELEMENT_END; }
+<ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> "}" { yybegin(YYINITIAL); return NanoMessageTokenType.NM_PLACEHOLDER_END; }
 
 <ATTRIBUTE_VALUE_START> "\"" { yybegin(ATTRIBUTE_VALUE_DQ); return XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
 <ATTRIBUTE_VALUE_START> "'" { yybegin(ATTRIBUTE_VALUE_SQ); return XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
-<ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> [^:'\"}] { yybegin(ATTRIBUTE_VALUE); return XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN; }
+<ATTRIBUTE_VALUE, ATTRIBUTE_VALUE_START> [^:'\"\>\}?] { yybegin(ATTRIBUTE_VALUE); return XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN; }
 
 <ATTRIBUTE_VALUE_DQ> {
   "\"" { yybegin(TAG_ATTRIBUTES); return XmlTokenType.XML_ATTRIBUTE_VALUE_END_DELIMITER; }

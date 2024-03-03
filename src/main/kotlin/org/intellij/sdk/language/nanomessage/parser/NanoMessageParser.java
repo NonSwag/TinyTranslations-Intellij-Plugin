@@ -26,7 +26,7 @@ public class NanoMessageParser implements PsiParser, LightPsiParser {
 	public void parseLight(IElementType root, PsiBuilder builder) {
 		builder.enforceCommentTokens(TokenSet.EMPTY);
 		PsiBuilder.Marker file = builder.mark();
-		(new MiniMessageParsing(builder)).parseDocument();
+		(new NanoMessageParsing(builder)).parseDocument();
 		file.done(root);
 	}
 }

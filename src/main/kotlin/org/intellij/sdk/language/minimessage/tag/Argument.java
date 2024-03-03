@@ -139,7 +139,7 @@ public abstract class Argument {
             public boolean check(String arg) {
                 return arg.toLowerCase().matches("true|false");
             }
-        };
+        }.completions("true", "false");
     }
 
     public static Argument colorArgument() {

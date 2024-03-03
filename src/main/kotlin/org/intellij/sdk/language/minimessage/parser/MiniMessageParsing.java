@@ -3,7 +3,6 @@ package org.intellij.sdk.language.minimessage.parser;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.openapi.util.NlsContexts.ParsingError;
 import com.intellij.psi.TokenType;
-import com.intellij.psi.impl.source.parsing.xml.XmlParsing;
 import com.intellij.psi.tree.ICustomParsingType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.ILazyParseableElementType;
@@ -13,6 +12,9 @@ import com.intellij.xml.psi.XmlPsiBundle;
 import org.intellij.sdk.language.minimessage.MiniMessageTokenType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.List;
 
 import static com.intellij.psi.xml.XmlElementType.*;
 
@@ -137,6 +139,13 @@ public class MiniMessageParsing {
         return tagName;
     }
 
+    public boolean checkTagContentDelegate() {
+        return false;
+    }
+
+    public void parseTagContentDelegate() {
+    }
+
     public void parseTagContent(boolean cancelAtEndTag) {
         PsiBuilder.Marker xmlText = null;
         while (true) {
@@ -145,7 +154,10 @@ public class MiniMessageParsing {
                 break;
             }
 
-            if (tt == XML_START_TAG_START) {
+            if (checkTagContentDelegate()) {
+                xmlText = terminateText(xmlText);
+                parseTagContentDelegate();
+            } else if (tt == XML_START_TAG_START) {
                 xmlText = terminateText(xmlText);
                 parseTag();
             }
@@ -219,12 +231,20 @@ public class MiniMessageParsing {
         comment.done(XML_COMMENT);
     }
 
-    private void parseAttribute() {
-        assert token() == MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR;
+    protected void parseAttribute() {
         final PsiBuilder.Marker att = mark();
         advance();
         parseAttributeValue();
         att.done(XML_ATTRIBUTE);
+    }
+
+    private static final Collection<IElementType> ATTRIBUTE_DELIMITERS = List.of(
+            MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR, XML_ATTRIBUTE_VALUE_END_DELIMITER, XML_TAG_END,
+            XML_END_TAG_START, XML_EMPTY_ELEMENT_END, XML_START_TAG_START
+    );
+
+    protected Collection<IElementType> attributeDelimiters() {
+        return ATTRIBUTE_DELIMITERS;
     }
 
     private void parseAttributeValue() {
@@ -232,8 +252,7 @@ public class MiniMessageParsing {
         if (token() == XML_ATTRIBUTE_VALUE_TOKEN) {
             while (true) {
                 final IElementType tt = token();
-                if (tt == null || tt == MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR || tt == XML_ATTRIBUTE_VALUE_END_DELIMITER
-                        || tt == XML_TAG_END || tt == XML_END_TAG_START || tt == XML_EMPTY_ELEMENT_END || tt == XML_START_TAG_START) {
+                if (tt == null || attributeDelimiters().stream().anyMatch(t -> tt == t)) {
                     break;
                 }
 
@@ -272,10 +291,10 @@ public class MiniMessageParsing {
                 error(XmlPsiBundle.message("xml.parsing.unclosed.attribute.value"));
             }
         }
-        final IElementType tt = token();
-        if (!(tt == null || tt == XML_TAG_END || tt == XML_EMPTY_ELEMENT_END || tt == MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR)) {
-            error(XmlPsiBundle.message("xml.parsing.attribute.value.expected"));
-        }
+//        final IElementType tt = token();
+//        if (!(tt == null || tt == XML_TAG_END || tt == XML_EMPTY_ELEMENT_END || tt == MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR)) {
+//            error(XmlPsiBundle.message("xml.parsing.attribute.value.expected"));
+//        }
 
         attValue.done(XML_ATTRIBUTE_VALUE);
     }
@@ -292,7 +311,7 @@ public class MiniMessageParsing {
         myBuilder.advanceLexer();
     }
 
-    private void error(@NotNull @ParsingError String message) {
+    protected void error(@NotNull @ParsingError String message) {
         myBuilder.error(message);
     }
 }
