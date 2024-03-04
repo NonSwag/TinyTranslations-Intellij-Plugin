@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.cubbossa"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -45,8 +45,8 @@ tasks {
     }
 
     signPlugin {
-        certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
-        privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
+        certificateChainFile.set(file("C:/Users/leona/chain.crt"))
+        privateKeyFile.set(file("C:/Users/leona/private_encrypted.pem"))
         password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
     }
 
