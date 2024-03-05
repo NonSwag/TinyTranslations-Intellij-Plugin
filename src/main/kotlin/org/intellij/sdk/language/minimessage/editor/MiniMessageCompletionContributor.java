@@ -4,19 +4,18 @@ import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.patterns.StandardPatterns;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.xml.XmlAttribute;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.psi.xml.XmlTokenType;
+import com.intellij.psi.xml.*;
 import com.intellij.util.Function;
 import com.intellij.util.ProcessingContext;
 import org.intellij.sdk.language.Constants;
 import org.intellij.sdk.language.minimessage.MiniMessageLanguage;
+import org.intellij.sdk.language.minimessage.MiniMessageTokenType;
 import org.intellij.sdk.language.minimessage.tag.Argument;
 import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +28,8 @@ import static org.intellij.sdk.language.TinyTranslationsIcons.Tag;
 
 public class MiniMessageCompletionContributor extends CompletionContributor {
 
-    MiniMessageCompletionContributor() {
+    public MiniMessageCompletionContributor() {
+
         extend(CompletionType.BASIC, psiElement(XmlTokenType.XML_NAME).afterLeaf("<", "{"), new CompletionProvider<>() {
             @Override
             protected void addCompletions(@NotNull CompletionParameters params,
@@ -59,46 +59,43 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
             }
         });
 
-        extend(CompletionType.BASIC, psiElement().afterLeaf("\"", "'", ":"), new CompletionProvider<>() {
+        extend(CompletionType.BASIC, StandardPatterns.or(
+                psiElement(XmlElementType.XML_ATTRIBUTE_VALUE),
+                psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN),
+                psiElement().afterLeaf(psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)),
+                psiElement().afterLeaf(psiElement(MiniMessageTokenType.MM_ATTRIBUTE_SEPARATOR)),
+                psiElement().afterLeaf(psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_START_DELIMITER))
+        ), new CompletionProvider<>() {
             @Override
             protected void addCompletions(@NotNull CompletionParameters params,
                                           @NotNull ProcessingContext processingContext,
                                           @NotNull CompletionResultSet completionResultSet) {
 
-                FileViewProvider provider = params.getOriginalFile().getViewProvider();
-                Editor editor = params.getEditor();
-                int offset = editor.getCaretModel().getOffset();
 
-                PsiElement element = null;
-                if (offset < editor.getDocument().getTextLength()) {
-                    element = provider.findElementAt(offset, MiniMessageLanguage.class);
+                PsiElement element = params.getPosition();
 
-                    if (element == null && offset > 0) {
-                        element = provider.findElementAt(offset - 1, MiniMessageLanguage.class);
-                    }
-                }
                 XmlAttribute attr = null;
                 if (element instanceof XmlAttribute t) {
                     attr = t;
                 } else if (element.getParent() instanceof XmlAttribute t) {
                     attr = t;
-                } else if (element.getParent().getParent() instanceof  XmlAttribute t) {
+                } else if (element.getParent().getParent() instanceof XmlAttribute t) {
                     attr = t;
                 }
                 if (attr != null) {
+                    Editor editor = params.getEditor();
+                    int offset = editor.getCaretModel().getOffset();
+                    String prefix = attr.getValue().substring(0, (offset - attr.getTextOffset() - 1));
+                    completionResultSet = completionResultSet.withPrefixMatcher(prefix);
+
                     XmlTag x = attr.getParent();
-                    MiniMessageTag tag = Constants.TAGS.stream().filter(miniMessageTag -> miniMessageTag.check(x.getName())).findFirst().get();
+                    MiniMessageTag tag = Constants.TAGS.stream().filter(miniMessageTag -> miniMessageTag.check(x.getName())).findFirst().orElse(null);
                     if (tag == null) {
                         return;
                     }
                     Collection<Argument> matches = new HashSet<>();
                     matches.add(tag);
                     int offsetInParent = -2;
-                    PsiElement a = attr;
-                    while (a.getPrevSibling() != null) {
-                        a = a.getPrevSibling();
-                        offsetInParent ++;
-                    }
                     for (int i = 0; i < offsetInParent; i++) {
                         final int fi = i;
                         matches = new HashSet<>(matches).stream()
@@ -109,17 +106,22 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
                                 .toList();
                     }
                     matches = matches.stream().flatMap(argument -> argument.getChildren().stream()).toList();
-                    matches.forEach(argument -> {
-                        completionResultSet.addAllElements(argument.getCompletions());
-                    });
+
+                    for (Argument argument : matches) {
+                        completionResultSet.addAllElements(argument.getCompletions(prefix));
+                    }
                 }
             }
         });
     }
 
     @Override
-    public @Nullable AutoCompletionDecision handleAutoCompletionPossibility(@NotNull AutoCompletionContext context) {
-        return AutoCompletionDecision.SHOW_LOOKUP;
+    public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result) {
+        if (parameters.getPosition().getNode().getElementType() == XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN) {
+            XmlAttributeValue val = (XmlAttributeValue) parameters.getPosition().getParent();
+            parameters = parameters.withPosition(val, val.getTextOffset());
+        }
+        super.fillCompletionVariants(parameters, result);
     }
 
     public static Iterable<LookupElement> colorCompletions() {

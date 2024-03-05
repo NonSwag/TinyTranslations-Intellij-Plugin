@@ -2,25 +2,20 @@ package org.intellij.sdk.language.minimessage.tag;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.patterns.PlatformPatterns;
-import com.intellij.patterns.PsiJavaPatterns;
-import com.intellij.psi.PsiClass;
 import org.intellij.sdk.language.Constants;
 import org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
-import static com.intellij.patterns.PlatformPatterns.psiElement;
 import static com.intellij.patterns.PsiJavaPatterns.*;
 
 public abstract class Argument {
 
     protected String name;
     protected List<Argument> children;
-    protected List<LookupElement> completions;
+    protected List<Function<String, Collection<? extends LookupElement>>> completions;
     protected boolean optional = false;
 
     public Argument(String name) {
@@ -41,8 +36,8 @@ public abstract class Argument {
         return children;
     }
 
-    public List<LookupElement> getCompletions() {
-        return completions;
+    public List<? extends LookupElement> getCompletions(String in) {
+        return completions.stream().map(f -> f.apply(in)).flatMap(Collection::stream).toList();
     }
 
     @Override
@@ -53,21 +48,29 @@ public abstract class Argument {
     public abstract boolean check(String arg);
 
     public Argument completions(String completion) {
-        completions.add(LookupElementBuilder.create(completion));
+        completions.add(s -> List.of(LookupElementBuilder.create(completion)));
         return this;
     }
 
     public Argument completions(String... completions) {
-        this.completions.addAll(Arrays.stream(completions).map(LookupElementBuilder::create).toList());
+        this.completions.add(s -> Arrays.stream(completions).map(LookupElementBuilder::create).toList());
         return this;
     }
 
     public Argument completions(Iterable<LookupElement> elements) {
-        elements.forEach(completions::add);
+        Collection<LookupElement> l = new LinkedList<>();
+        elements.forEach(l::add);
+        this.completions.add(s -> l);
         return this;
     }
+
+    public Argument completions(Function<String, Collection<? extends LookupElement>> function) {
+        this.completions.add(function);
+        return this;
+    }
+
     public Argument completions(LookupElement element) {
-        this.completions.add(element);
+        this.completions.add(s -> List.of(element));
         return this;
     }
 
@@ -229,7 +232,7 @@ public abstract class Argument {
         return new Argument("<key>") {
             @Override
             public boolean check(String arg) {
-                return arg.matches("[a-z0-9._-]");
+                return arg.matches("[a-z0-9._-]+");
             }
         };
     }

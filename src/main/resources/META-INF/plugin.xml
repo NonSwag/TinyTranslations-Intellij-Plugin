@@ -94,6 +94,9 @@
                 language="NanoMessage"
                 implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageAnnotator"
         />
+        <typedHandler
+                implementation="org.intellij.sdk.language.nanomessage.editor.NanoMessageTypedHandler"
+        />
         <!--        <colorSettingsPage implementation="org.intellij.sdk.language.nanomessage.highlight.NanoMessageColorSettingsPage"/>-->
         <!--        <completion.contributor-->
         <!--                language="NanoMessage"-->
@@ -119,9 +122,9 @@
         <!--                language="NanoMessage"-->
         <!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"-->
         <!--        />-->
-        <!--        <multiHostInjector-->
-        <!--            implementation="org.intellij.sdk.language.tinytranslations.LegacyInjector"-->
-        <!--        />-->
+        <multiHostInjector
+            implementation="org.intellij.sdk.language.nanomessage.injection.LegacyInjector"
+        />
 
 
         <fileType

@@ -13,8 +13,10 @@ import org.intellij.sdk.language.minimessage.MiniMessageTokenType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static com.intellij.psi.xml.XmlElementType.*;
 
@@ -23,16 +25,27 @@ public class MiniMessageParsing {
 
     protected final PsiBuilder myBuilder;
     private final Stack<String> myTagNamesStack = new Stack<>();
+    private final Collection<String> preTags = new ArrayList<>();
 
     public MiniMessageParsing(final PsiBuilder builder) {
         myBuilder = builder;
+    }
+
+    public MiniMessageParsing withPreTags(Iterable<String> preTags) {
+        preTags.forEach(this.preTags::add);
+        return this;
+    }
+
+    public MiniMessageParsing withPreTag(String preTag) {
+        this.preTags.add(preTag);
+        return this;
     }
 
     public void parseDocument() {
         final PsiBuilder.Marker document = mark();
 
         while (!eof()) {
-            parseTagContent(false);
+            parseTagContent(null);
         }
 
         document.done(XML_DOCUMENT);
@@ -46,7 +59,7 @@ public class MiniMessageParsing {
         if (tagName == null) return;
 
         final PsiBuilder.Marker content = mark();
-        parseTagContent(true);
+        parseTagContent(tagName);
 
         if (token() == XML_END_TAG_START) {
             final PsiBuilder.Marker footer = mark();
@@ -146,36 +159,52 @@ public class MiniMessageParsing {
     public void parseTagContentDelegate() {
     }
 
-    public void parseTagContent(boolean cancelAtEndTag) {
+    public void parseTagContent(String tagName) {
         PsiBuilder.Marker xmlText = null;
         while (true) {
             final IElementType tt = token();
-            if (tt == null || cancelAtEndTag && tt == XML_END_TAG_START) {
+            if (tt == null) {
                 break;
             }
+            if (tagName != null && tt == XML_END_TAG_START) {
+                PsiBuilder.Marker x = mark();
+                advance();
+                if (Objects.equals(myBuilder.getTokenText(), tagName)) {
+                    x.rollbackTo();
+                    break;
+                }
+                x.rollbackTo();
+            }
 
-            if (checkTagContentDelegate()) {
-                xmlText = terminateText(xmlText);
-                parseTagContentDelegate();
-            } else if (tt == XML_START_TAG_START) {
-                xmlText = terminateText(xmlText);
-                parseTag();
-            }
-            else if (isCommentToken(tt)) {
-                xmlText = terminateText(xmlText);
-                parseComment();
-            }
-            else if (tt == XML_BAD_CHARACTER) {
-                xmlText = startText(xmlText);
-                final PsiBuilder.Marker error = mark();
-                advance();
-                error.error(XmlPsiBundle.message("xml.parsing.unescaped.ampersand.or.nonterminated.character.entity.reference"));
-            }
-            else if (tt instanceof ICustomParsingType || tt instanceof ILazyParseableElementType) {
-                xmlText = terminateText(xmlText);
-                advance();
-            }
-            else {
+            if (tagName == null || preTags.stream().noneMatch(tagName::equalsIgnoreCase)) {
+
+                if (checkTagContentDelegate()) {
+                    xmlText = terminateText(xmlText);
+                    parseTagContentDelegate();
+                }
+                else if (tt == XML_START_TAG_START) {
+                    xmlText = terminateText(xmlText);
+                    parseTag();
+                }
+                else if (isCommentToken(tt)) {
+                    xmlText = terminateText(xmlText);
+                    parseComment();
+                }
+                else if (tt == XML_BAD_CHARACTER) {
+                    xmlText = startText(xmlText);
+                    final PsiBuilder.Marker error = mark();
+                    advance();
+                    error.error(XmlPsiBundle.message("xml.parsing.unescaped.ampersand.or.nonterminated.character.entity.reference"));
+                }
+                else if (tt instanceof ICustomParsingType || tt instanceof ILazyParseableElementType) {
+                    xmlText = terminateText(xmlText);
+                    advance();
+                }
+                else {
+                    xmlText = startText(xmlText);
+                    advance();
+                }
+            } else {
                 xmlText = startText(xmlText);
                 advance();
             }

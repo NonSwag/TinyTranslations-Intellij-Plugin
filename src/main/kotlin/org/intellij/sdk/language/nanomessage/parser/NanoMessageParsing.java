@@ -21,11 +21,6 @@ public class NanoMessageParsing extends MiniMessageParsing {
     }
 
     @Override
-    public void parseTagContent(boolean cancelAtEndTag) {
-        super.parseTagContent(cancelAtEndTag);
-    }
-
-    @Override
     public boolean checkTagContentDelegate() {
         return token() == NanoMessageTokenType.NM_PLACEHOLDER_START;
     }
