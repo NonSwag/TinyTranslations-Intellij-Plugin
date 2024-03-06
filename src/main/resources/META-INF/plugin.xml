@@ -118,10 +118,10 @@
         <!--                language="NanoMessage"-->
         <!--                implementation="org.intellij.sdk.language.nanomessage.NanoMessageReferenceContributor"-->
         <!--        />-->
-        <!--        <codeInsight.parameterNameHints-->
-        <!--                language="NanoMessage"-->
-        <!--                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"-->
-        <!--        />-->
+        <codeInsight.parameterNameHints
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"
+        />
         <multiHostInjector
             implementation="org.intellij.sdk.language.nanomessage.injection.LegacyInjector"
         />
@@ -167,7 +167,6 @@
                 language="MinecraftLegacyFormatting"
                 implementationClass="org.intellij.sdk.language.legacy.common.editor.LegacyCompletionContributor"
         />
-
 
         <colorProvider
                 implementation="org.intellij.sdk.language.legacy.common.editor.LegacyElementColorProvider"

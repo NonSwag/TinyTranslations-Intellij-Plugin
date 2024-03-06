@@ -23,15 +23,8 @@ public class MiniMessageElementColorProvider implements ElementColorProvider, Du
 
 		// the name is the color information
 		if (psiElement.getParent() instanceof XmlTag tag && tag.getChildren()[1].equals(psiElement)) {
-			Color c = getColorFrom(tag.getName());
-			if (c != null) {
-				return c;
-			}
-			if (tag.getName().equals("color") && tag.getAttributes().length > 0) {
-				return getColorFrom(tag.getAttributes()[0].getValueElement().getText());
-			}
-			return null;
-		}
+            return getColorFrom(tag.getName());
+        }
 		if (!(psiElement instanceof XmlAttributeValue value)) {
 			return null;
 		}
@@ -59,7 +52,7 @@ public class MiniMessageElementColorProvider implements ElementColorProvider, Du
 	@Override
 	public void setColorTo(@NotNull PsiElement psiElement, @NotNull Color color) {
 		if (psiElement.getParent() instanceof XmlTag tag && tag.getChildren()[1].equals(psiElement)) {
-			tag.getAttributes()[0].setValue(toString(color));
+			tag.setName(toString(color));
 			return;
 		}
 		if (!(psiElement instanceof XmlAttributeValue value)) {

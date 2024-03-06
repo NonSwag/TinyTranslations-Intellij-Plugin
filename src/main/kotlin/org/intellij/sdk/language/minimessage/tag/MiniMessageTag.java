@@ -1,13 +1,13 @@
 package org.intellij.sdk.language.minimessage.tag;
 
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.HighlightSeverity;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.xml.XmlAttribute;
-import com.intellij.psi.xml.XmlTag;
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.intellij.sdk.language.TinyTranslationsIcons.*;
 
 public class MiniMessageTag extends Argument {
 
@@ -16,6 +16,17 @@ public class MiniMessageTag extends Argument {
     public MiniMessageTag(String name, String... alias) {
         super(name, new ArrayList<>());
         this.alias = alias;
+    }
+
+    @Override
+    public List<? extends LookupElement> getCompletions(String in) {
+        if (alias.length == 0) {
+            return List.of(LookupElementBuilder.create(name).withIcon(Tag));
+        }
+        List<String> list = new ArrayList<>(this.alias.length + 1);
+        list.add(name);
+        list.addAll(Arrays.stream(alias).toList());
+        return List.of(LookupElementBuilder.create(list).withIcon(Tag));
     }
 
     @Override

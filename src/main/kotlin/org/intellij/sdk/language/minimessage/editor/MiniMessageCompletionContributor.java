@@ -5,7 +5,6 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.patterns.StandardPatterns;
-import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.*;
 import com.intellij.util.Function;
@@ -15,6 +14,8 @@ import org.intellij.sdk.language.minimessage.MiniMessageLanguage;
 import org.intellij.sdk.language.minimessage.MiniMessageTokenType;
 import org.intellij.sdk.language.minimessage.tag.Argument;
 import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
+import org.intellij.sdk.language.minimessage.tag.impl.ColorTag;
+import org.intellij.sdk.language.minimessage.tag.impl.DecorationTag;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 import static org.intellij.sdk.language.TinyTranslationsIcons.Tag;
@@ -37,25 +39,9 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
                                           @NotNull CompletionResultSet completionResultSet) {
 
                 completionResultSet.addAllElements(colorCompletions());
-
-                Constants.TAGS.forEach(miniMessageTag -> {
-                    boolean needsArg = !miniMessageTag.getChildren().isEmpty() && miniMessageTag.getChildren().stream()
-                            .noneMatch(Argument::isOptional);
-                    completionResultSet.addElement(LookupElementBuilder
-                            .create(miniMessageTag.getName() + (needsArg ? ":" : ""))
-                            .withPresentableText(miniMessageTag.getName()));
-                });
-
-                completionResultSet.addElement(element("bold", "decoration",
-                        Tag, e -> e.withBoldness(true)));
-                completionResultSet.addElement(element("underlined", "decoration",
-                        Tag, e -> e.withItemTextUnderlined(true)));
-                completionResultSet.addElement(element("italic", "decoration",
-                        Tag, e -> e.withItemTextItalic(true)));
-                completionResultSet.addElement(element("strikethrough", "decoration",
-                        Tag, e -> e.withStrikeoutness(true)));
-                completionResultSet.addElement(element("obfuscated", "decoration",
-                        Tag));
+                if (params.getPosition().getContainingFile().getLanguage() instanceof MiniMessageLanguage mml) {
+                    mml.getTags().forEach(miniMessageTag -> completionResultSet.addAllElements(miniMessageTag.getCompletions("").stream().toList()));
+                }
             }
         });
 
@@ -73,6 +59,9 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
 
 
                 PsiElement element = params.getPosition();
+                if (!(element.getContainingFile().getLanguage() instanceof MiniMessageLanguage mml)) {
+                    return;
+                }
 
                 XmlAttribute attr = null;
                 if (element instanceof XmlAttribute t) {
@@ -88,8 +77,10 @@ public class MiniMessageCompletionContributor extends CompletionContributor {
                     String prefix = attr.getValue().substring(0, (offset - attr.getTextOffset() - 1));
                     completionResultSet = completionResultSet.withPrefixMatcher(prefix);
 
+                    List<MiniMessageTag> tags = mml.getTags();
+
                     XmlTag x = attr.getParent();
-                    MiniMessageTag tag = Constants.TAGS.stream().filter(miniMessageTag -> miniMessageTag.check(x.getName())).findFirst().orElse(null);
+                    MiniMessageTag tag = tags.stream().filter(miniMessageTag -> miniMessageTag.check(x.getName())).findFirst().orElse(null);
                     if (tag == null) {
                         return;
                     }

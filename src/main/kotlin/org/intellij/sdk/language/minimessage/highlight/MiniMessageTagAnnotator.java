@@ -13,6 +13,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
 import org.intellij.sdk.language.Constants;
+import org.intellij.sdk.language.minimessage.MiniMessageLanguage;
 import org.intellij.sdk.language.minimessage.editor.MiniMessageRemoveUnexpectedArgumentsFix;
 import org.intellij.sdk.language.minimessage.tag.Argument;
 import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
@@ -31,18 +32,20 @@ public class MiniMessageTagAnnotator implements Annotator, DumbAware {
         if (!(element instanceof XmlTag tag)) {
             return;
         }
-        for (MiniMessageTag mmTag : Constants.TAGS) {
-            if (!mmTag.check(tag.getName())) {
-                continue;
-            }
+        if (element.getContainingFile().getLanguage() instanceof MiniMessageLanguage mml) {
+            for (MiniMessageTag mmTag : mml.getTags()) {
+                if (!mmTag.check(tag.getName())) {
+                    continue;
+                }
 
-            PsiElement[] els = new PsiElement[tag.getAttributes().length + 1];
-            els[0] = tag.getChildren()[1];
-            for (int i = 1; i <= tag.getAttributes().length; i++) {
-                els[i] = tag.getAttributes()[i - 1].getValueElement();
-            }
+                PsiElement[] els = new PsiElement[tag.getAttributes().length + 1];
+                els[0] = tag.getChildren()[1];
+                for (int i = 1; i <= tag.getAttributes().length; i++) {
+                    els[i] = tag.getAttributes()[i - 1].getValueElement();
+                }
 
-            annotateRecursively(tag, annotationHolder, els, mmTag, 1).getValue().run();
+                annotateRecursively(tag, annotationHolder, els, mmTag, 1).getValue().run();
+            }
         }
     }
 

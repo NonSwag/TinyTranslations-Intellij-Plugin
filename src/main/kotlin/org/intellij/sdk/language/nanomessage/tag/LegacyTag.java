@@ -11,7 +11,7 @@ public class LegacyTag extends MiniMessageTag {
         argument(new Argument("symbol") {
             @Override
             public boolean check(String arg) {
-                return arg.matches("([$§])");
+                return arg.matches("([&§])");
             }
         }).completions("&", "§");
     }

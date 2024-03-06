@@ -22,6 +22,6 @@ public class MiniMessageSyntaxHighlighting implements SyntaxHighlighter {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType iElementType) {
-        return delegate.getTokenHighlights(iElementType);
+        return TextAttributesKey.EMPTY_ARRAY; //delegate.getTokenHighlights(iElementType);
     }
 }

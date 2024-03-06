@@ -94,12 +94,6 @@ public class Constants {
         DECORATIONS.put(ITALIC.name, ITALIC);
     }
 
-    public static final List<MiniMessageTag> TAGS = List.of(
-            new ClickTag(), new ColorTag(), new FontTag(), new HoverTag(), new GradientTag(), new KeybindTag(),
-            new NewlineTag(), new RainbowTag(), new ResetTag(), new ScoreTag(), new SelectorTag(), new TranslatableTag(),
-            new DecorationTag(), new NegatedDecorationTag()
-    );
-
     public record Suggestion(Icon icon, String sug, String name) {
     }
 
