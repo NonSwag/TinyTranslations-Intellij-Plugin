@@ -10,9 +10,4 @@ public class NanoMessageTokenType extends IElementType {
 	public NanoMessageTokenType(@NonNls @NotNull String debugName) {
 		super(debugName, NanoMessageLanguage.INSTANCE);
 	}
-
-	@Override
-	public String toString() {
-		return getDebugName();
-	}
 }

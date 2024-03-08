@@ -1,27 +1,18 @@
 package org.intellij.sdk.language.minimessage.highlight;
 
-import com.intellij.codeInsight.intention.IntentionAction;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.util.IntentionFamilyName;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
-import org.intellij.sdk.language.Constants;
 import org.intellij.sdk.language.minimessage.MiniMessageLanguage;
 import org.intellij.sdk.language.minimessage.editor.MiniMessageRemoveUnexpectedArgumentsFix;
 import org.intellij.sdk.language.minimessage.tag.Argument;
 import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
-import org.intellij.sdk.language.minimessage.tag.impl.*;
 import org.intellij.sdk.language.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -59,8 +50,9 @@ public class MiniMessageTagAnnotator implements Annotator, DumbAware {
             }
             return Map.entry(level, () -> {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Required argument missing: " + argument.getChildren().stream()
-                        .filter(a -> !a.isOptional()).map(Argument::getName).collect(Collectors.joining("|")))
-                        .range(attributes[attributes.length - 1].getLastChild())
+                                .filter(a -> !a.isOptional()).map(Argument::getName)
+                                .collect(Collectors.joining("|")))
+                        .range(attributes.length == 0 ? tag.getChildren()[1].getTextRange() : attributes[attributes.length - 1].getTextRange())
                         .create();
             });
         }

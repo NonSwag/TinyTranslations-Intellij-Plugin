@@ -225,14 +225,14 @@ public abstract class Argument {
             public boolean check(String arg) {
                 return true;
             }
-        };
+        }.optional();
     }
 
     public static Argument keyArgument() {
         return new Argument("<key>") {
             @Override
             public boolean check(String arg) {
-                return arg.matches("[a-z0-9._-]+");
+                return arg.matches("[a-zA-Z0-9._-]+");
             }
         };
     }

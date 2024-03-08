@@ -45,7 +45,11 @@ public class KeyRegistry {
         if (path.isEmpty()) {
             return this;
         }
-        return children.get(path.poll()).get(path);
+        var c = children.get(path.poll());
+        if (c != null) {
+            return c.get(path);
+        }
+        return null;
     }
 
     public void add(String key) {

@@ -8,7 +8,8 @@
     <name>TinyTranslations</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="leonard.bausenwein@web.de">CubBossa</vendor>
+    <vendor email="leonard.bausenwein@web.de" url="https://nexus.leonardbausenwein.de/">CubBossa</vendor>
+
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
@@ -16,6 +17,10 @@
     <description><![CDATA[
         A plugin that adds support for legacy and MiniMessage formatting for Minecraft chat.
     ]]></description>
+
+    <change-notes><![CDATA[
+        Full compatibility and further improvements in suggestions and annotations.
+    ]]></change-notes>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -28,7 +33,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="org.intellij.intelliLang">
-        <languageSupport implementation="org.intellij.plugins.intelliLang.inject.java.JavaLanguageInjectionSupport"/>
+<!--        <languageSupport implementation="org.intellij.plugins.intelliLang.inject.java.JavaLanguageInjectionSupport"/>-->
         <injectionConfig config="resources/java_injections.xml"/>
     </extensions>
 
@@ -65,6 +70,10 @@
                 language="MiniMessage"
                 implementationClass="org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor"
         />
+        <lang.foldingBuilder
+                language="MiniMessage"
+                implementationClass="org.intellij.sdk.language.minimessage.editor.MiniMessageTagFolding"
+        />
         <annotator
                 language="MiniMessage"
                 implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageTagAnnotator"
@@ -97,33 +106,24 @@
         <typedHandler
                 implementation="org.intellij.sdk.language.nanomessage.editor.NanoMessageTypedHandler"
         />
-        <!--        <colorSettingsPage implementation="org.intellij.sdk.language.nanomessage.highlight.NanoMessageColorSettingsPage"/>-->
-        <!--        <completion.contributor-->
-        <!--                language="NanoMessage"-->
-        <!--                implementationClass="org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor"-->
-        <!--        />-->
-        <!--        <lang.findUsagesProvider-->
-        <!--                language="NanoMessage"-->
-        <!--                implementationClass="org.intellij.sdk.language.nanomessage.NanoMessageFindUsagesProvider"-->
-        <!--        />-->
-        <!--&lt;!&ndash;        <braceMatcher filetype="NanoMessage" implementationClass="com.intellij.xml.impl.XmlBraceMatcher"/>&ndash;&gt;-->
-
-
-        <!--        <defaultLiveTemplates file="/Translations.xml"/>-->
-        <!--        <liveTemplateContext-->
-        <!--                contextId="Translations"-->
-        <!--                implementation="org.intellij.sdk.language.nanomessage.completion.NanoMessageClickTemplateContextType"-->
-        <!--        />-->
-        <!--        <psi.referenceContributor-->
-        <!--                language="NanoMessage"-->
-        <!--                implementation="org.intellij.sdk.language.nanomessage.NanoMessageReferenceContributor"-->
-        <!--        />-->
         <codeInsight.parameterNameHints
                 language="NanoMessage"
                 implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"
         />
         <multiHostInjector
             implementation="org.intellij.sdk.language.nanomessage.injection.LegacyInjector"
+        />
+        <completion.contributor
+                language="NanoMessage"
+                implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageCompletionContributor"
+        />
+        <additionalTextAttributes
+            scheme="Default"
+            file="colorSchemes/NanoMessageDefaults.xml"
+        />
+        <additionalTextAttributes
+                scheme="Darcula"
+                file="colorSchemes/NanoMessageDefaults.xml"
         />
 
 

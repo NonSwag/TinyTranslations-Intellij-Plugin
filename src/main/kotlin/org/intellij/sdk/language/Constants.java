@@ -10,10 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Properties;
 
 public class Constants {
 
@@ -60,12 +58,27 @@ public class Constants {
     public static final BidirectionalMap<String, NamedDecoration> DECORATIONS = new BidirectionalMap<>();
 
     public static final KeyRegistry TRANSLATION_KEYS = new KeyRegistry();
+    public static final Properties TRANSLATION_KEY_VALUES = new Properties();
+    public static final KeyRegistry CONTROL_KEYS = new KeyRegistry();
+    public static final Properties CONTROL_KEY_NAMES = new Properties();
+    public static final Properties GLOBAL_STYLES = new Properties();
 
     static {
         try {
             Properties props = new Properties();
             props.load(Constants.class.getResourceAsStream("/translation_keys.properties"));
             props.keySet().forEach(s -> TRANSLATION_KEYS.add((String) s));
+            TRANSLATION_KEY_VALUES.putAll(props);
+
+            props.clear();
+            props.load(Constants.class.getResourceAsStream("/control_keys.properties"));
+            props.keySet().forEach(s -> CONTROL_KEYS.add((String) s));
+            CONTROL_KEY_NAMES.putAll(props);
+
+            props.clear();
+            props.load(Constants.class.getResourceAsStream("/global_styles.properties"));
+            GLOBAL_STYLES.putAll(props);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -116,7 +129,7 @@ public class Constants {
     }
 
     public static ImageIcon createImageIcon(Color color, int width, int height) {
-        BufferedImage image = UIUtil.createImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = UIUtil.createImage(new Box(0), width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = image.createGraphics();
         graphics.setPaint(color);
         graphics.fillRect(0, 0, width, height);

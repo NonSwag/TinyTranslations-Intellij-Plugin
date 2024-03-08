@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<list>
+    <option name="NANOMESSAGE_PLACEHOLDER">
+        <value>
+            <option name="FOREGROUND" value="56A8F5"/>
+        </value>
+    </option>
+    <option name="NANOMESSAGE_CHOICE">
+        <value>
+            <option name="FOREGROUND" value="6E7FF5"/>
+        </value>
+    </option>
+</list>

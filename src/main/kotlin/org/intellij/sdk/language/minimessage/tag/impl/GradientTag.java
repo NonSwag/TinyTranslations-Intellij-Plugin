@@ -2,7 +2,6 @@ package org.intellij.sdk.language.minimessage.tag.impl;
 
 import org.intellij.sdk.language.Constants;
 import org.intellij.sdk.language.minimessage.editor.MiniMessageCompletionContributor;
-import org.intellij.sdk.language.minimessage.editor.MiniMessageElementColorProvider;
 import org.intellij.sdk.language.minimessage.tag.Argument;
 import org.intellij.sdk.language.minimessage.tag.MiniMessageTag;
 
