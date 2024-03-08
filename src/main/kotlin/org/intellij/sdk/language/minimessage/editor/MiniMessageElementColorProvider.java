@@ -22,7 +22,7 @@ public class MiniMessageElementColorProvider implements ElementColorProvider, Du
 	public @Nullable Color getColorFrom(@NotNull PsiElement psiElement) {
 
 		// the name is the color information
-		if (psiElement.getParent() instanceof XmlTag tag && tag.getChildren()[1].equals(psiElement)) {
+		if (psiElement.getParent() instanceof XmlTag tag && tag.getChildren().length > 1 && tag.getChildren()[1].equals(psiElement)) {
             return getColorFrom(tag.getName());
         }
 		if (!(psiElement instanceof XmlAttributeValue value)) {
