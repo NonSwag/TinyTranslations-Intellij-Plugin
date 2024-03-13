@@ -67,11 +67,11 @@ public class MiniMessageParsing {
 
             if (token() == XML_NAME) {
                 String endName = myBuilder.getTokenText();
-                if (!tagName.equals(endName) && myTagNamesStack.contains(endName)) {
+                if (endName == null || myTagNamesStack.contains(endName) && !endName.equals(myTagNamesStack.peek())) {
                     footer.rollbackTo();
                     myTagNamesStack.pop();
-                    tag.doneBefore(XML_TAG, content, XmlPsiBundle.message("xml.parsing.named.element.is.not.closed", tagName));
                     content.drop();
+                    tag.done(XML_TAG);
                     return;
                 }
 
@@ -169,7 +169,7 @@ public class MiniMessageParsing {
             if (tagName != null && tt == XML_END_TAG_START) {
                 PsiBuilder.Marker x = mark();
                 advance();
-                if (Objects.equals(myBuilder.getTokenText(), tagName)) {
+                if (myTagNamesStack.contains(myBuilder.getTokenText())) {
                     x.rollbackTo();
                     break;
                 }
