@@ -86,6 +86,10 @@
                 language="MiniMessage"
                 implementationClass="org.intellij.sdk.language.minimessage.highlight.MiniMessageHighlightingFactory"
         />
+        <spellchecker.support
+                language="MiniMessage"
+                implementationClass="org.intellij.sdk.language.minimessage.editor.MiniMessageSpellCheckingStrategy"
+        />
 
         <fileType
                 name="NanoMessage"
