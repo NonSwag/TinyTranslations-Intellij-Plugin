@@ -21,8 +21,6 @@ import org.intellij.sdk.language.nanomessage.psi.NanoMessagePsiUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Properties;
-
 public class NanoMessageAnnotator implements Annotator, DumbAware {
 
 	@Override
@@ -73,6 +71,7 @@ public class NanoMessageAnnotator implements Annotator, DumbAware {
 							tag.setName(fkey);
 						}
 					})
+					.needsUpdateOnTyping()
 					.create();
 		}
 	}
@@ -99,6 +98,7 @@ public class NanoMessageAnnotator implements Annotator, DumbAware {
 		annotationHolder.newSilentAnnotation(HighlightSeverity.INFORMATION)
 				.range(psiElement)
 				.textAttributes(choice ? NanoMessageSyntaxHighlighter.CHOICE : NanoMessageSyntaxHighlighter.PLACEHOLDER)
+				.needsUpdateOnTyping()
 				.create();
 	}
 }

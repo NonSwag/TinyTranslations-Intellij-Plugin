@@ -6,7 +6,6 @@ import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.XmlHighlighterColors;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.PsiNonJavaFileReferenceProcessor;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.psi.xml.XmlTokenType;
@@ -22,6 +21,7 @@ public class MiniMessageHighlighting implements Annotator, DumbAware {
                 annotationHolder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                         .range(attribute.getValueElement())
                         .textAttributes(XmlHighlighterColors.XML_ATTRIBUTE_VALUE)
+                        .needsUpdateOnTyping()
                         .create();
             }
 
@@ -48,6 +48,7 @@ public class MiniMessageHighlighting implements Annotator, DumbAware {
         annotationHolder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(psiElement)
                 .textAttributes(XmlHighlighterColors.XML_TAG)
+                .needsUpdateOnTyping()
                 .create();
     }
 }
