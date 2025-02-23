@@ -24,9 +24,6 @@ public class YmlLanguageInjector implements LanguageInjectionContributor, DumbAw
   @Override
   public @Nullable Injection getInjection(@NotNull PsiElement psiElement) {
     String path = psiElement.getContainingFile().getOriginalFile().getVirtualFile().getPath();
-    if (!path.contains("/lang/")) {
-      return null;
-    }
     for (YAMLElementType injectType : INJECT_TYPES) {
       if (psiElement.getNode().getElementType().equals(injectType)) {
         return new SimpleInjection(MiniMessageLanguage.INSTANCE, "", "", null);

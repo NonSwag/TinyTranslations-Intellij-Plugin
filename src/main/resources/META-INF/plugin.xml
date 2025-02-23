@@ -33,7 +33,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="org.intellij.intelliLang">
-<!--        <languageSupport implementation="org.intellij.plugins.intelliLang.inject.java.JavaLanguageInjectionSupport"/>-->
+        <!--        <languageSupport implementation="org.intellij.plugins.intelliLang.inject.java.JavaLanguageInjectionSupport"/>-->
         <injectionConfig config="resources/java_injections.xml"/>
     </extensions>
 
@@ -115,15 +115,15 @@
                 implementationClass="org.intellij.sdk.language.nanomessage.highlight.NanoMessageChoiceInlayHintProvider"
         />
         <multiHostInjector
-            implementation="org.intellij.sdk.language.nanomessage.injection.LegacyInjector"
+                implementation="org.intellij.sdk.language.nanomessage.injection.LegacyInjector"
         />
         <completion.contributor
                 language="NanoMessage"
                 implementationClass="org.intellij.sdk.language.nanomessage.editor.NanoMessageCompletionContributor"
         />
         <additionalTextAttributes
-            scheme="Default"
-            file="colorSchemes/NanoMessageDefaults.xml"
+                scheme="Default"
+                file="colorSchemes/NanoMessageDefaults.xml"
         />
         <additionalTextAttributes
                 scheme="Darcula"

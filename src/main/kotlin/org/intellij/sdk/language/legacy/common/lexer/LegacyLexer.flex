@@ -1,8 +1,7 @@
 package org.intellij.sdk.language.legacy.common.lexer;
 
-import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import org.eclipse.sisu.inject.Legacy;import org.intellij.sdk.language.legacy.common.psi.LegacyTypes;
+import org.intellij.sdk.language.legacy.common.psi.LegacyTypes;
 
 %%
 

@@ -1,9 +1,10 @@
-import org.jetbrains.kotlin.ir.backend.js.compile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.8.21"
-    id("org.jetbrains.intellij") version "1.13.3"
+    id("org.jetbrains.grammarkit") version "2022.3.2.2"
+    id("org.jetbrains.intellij.platform") version "2.2.1"
+    id("org.jetbrains.kotlin.jvm") version "2.1.20-RC"
 }
 
 group = "de.cubbossa"
@@ -11,46 +12,79 @@ version = "1.1.0"
 
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
     maven("https://nexus.leonardbausenwein.de/repository/maven-public/")
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    intellijPlatform {
+        bundledPlugin("com.intellij.java")
+        bundledPlugin("org.intellij.intelliLang")
+        bundledPlugin("org.jetbrains.plugins.yaml")
+        bundledPlugin("com.intellij.properties")
+        intellijIdeaCommunity("2024.3")
+    }
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version.set("2023.3.1")
-    type.set("IC") // Target IDE Platform
-
-    plugins.set(listOf("com.intellij.java", "org.intellij.intelliLang", "org.jetbrains.plugins.yaml", "com.intellij.properties"))
+sourceSets.main {
+    java.srcDirs("src/main/gen", "src/main/kotlin")
 }
-
-sourceSets["main"].java.srcDirs("src/main/gen", "src/main/kotlin")
 
 tasks {
-    // Set the JVM compatibility versions
-    withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
-    }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
-    }
-
-    patchPluginXml {
-        sinceBuild.set("222")
-        untilBuild.set("233.*")
-    }
-
-    signPlugin {
-        certificateChainFile.set(file("C:/Users/leona/chain.crt"))
-        privateKeyFile.set(file("C:/Users/leona/private_encrypted.pem"))
-        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
-    }
-
-    publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
+    generateParser {
+        sourceFile.set(file("src/main/kotlin/org/intellij/sdk/language/legacy/common/parser/LegacyParser.bnf"))
+        pathToParser.set("/org/intellij/sdk/language/legacy/common/parser")
+        pathToPsiRoot.set("/org/intellij/sdk/language/legacy/common/parser")
+        targetRootOutputDir.set(file("src/main/gen"))
+        purgeOldFiles.set(true)
     }
 }
+
+tasks.register("generateLegacyLexer", org.jetbrains.grammarkit.tasks.GenerateLexerTask::class.java) {
+    sourceFile.set(file("src/main/kotlin/org/intellij/sdk/language/legacy/common/lexer/LegacyLexer.flex"))
+    targetOutputDir.set(file("src/main/gen/org/intellij/sdk/language/legacy/common/lexer"))
+    targetFile("LegacyLexer")
+}
+
+tasks.register("generateMiniMessageLexer", org.jetbrains.grammarkit.tasks.GenerateLexerTask::class.java) {
+    sourceFile.set(file("src/main/kotlin/org/intellij/sdk/language/minimessage/lexer/MiniMessageLexer.flex"))
+    targetOutputDir.set(file("src/main/gen/org/intellij/sdk/language/minimessage/lexer"))
+    targetFile("MiniMessageLexer")
+}
+
+tasks.register("generateNanoMessageLexer", org.jetbrains.grammarkit.tasks.GenerateLexerTask::class.java) {
+    sourceFile.set(file("src/main/kotlin/org/intellij/sdk/language/nanomessage/lexer/NanoMessageLexer.flex"))
+    targetOutputDir.set(file("src/main/gen/org/intellij/sdk/language/nanomessage/lexer"))
+    targetFile("NanoMessageLexer")
+}
+
+
+kotlin.compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_21)
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+tasks.compileJava {
+    options.release.set(21)
+}
+
+tasks.patchPluginXml {
+    sinceBuild.set("243")
+    untilBuild.set("243.*")
+}
+
+// tasks.signPlugin {
+//     certificateChainFile.set(file("C:/Users/leona/chain.crt"))
+//     privateKeyFile.set(file("C:/Users/leona/private_encrypted.pem"))
+//     password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+// }
+
+// tasks.publishPlugin {
+//     token.set(System.getenv("PUBLISH_TOKEN"))
+// }

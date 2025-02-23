@@ -15,9 +15,6 @@ public class PropertiesLanguageInjector implements LanguageInjectionContributor,
 	@Override
 	public @Nullable Injection getInjection(@NotNull PsiElement psiElement) {
 		String path = psiElement.getContainingFile().getOriginalFile().getVirtualFile().getPath();
-		if (!path.contains("/lang/")) {
-			return null;
-		}
 		if (psiElement instanceof Property) {
 			return new SimpleInjection(NanoMessageLanguage.INSTANCE, "", "", null);
 		}
